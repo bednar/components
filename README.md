@@ -1,2 +1,2 @@
-Web componenets based on Marionette.js
+Web components
 =========
