@@ -23,7 +23,7 @@ public class LocalizationTest extends AbstractComponentTest
     }
 
     @Test
-    public void isNotAuthenticated() throws ExecutionException, InterruptedException
+    public void get() throws ExecutionException, InterruptedException
     {
         Response response = ClientBuilder.newClient()
                 .target(urlPath())
@@ -33,5 +33,23 @@ public class LocalizationTest extends AbstractComponentTest
                 .get();
 
         Assert.assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    public void getValue() throws ExecutionException, InterruptedException
+    {
+        Response response = ClientBuilder.newClient()
+                .target(urlPath())
+                .request("application/json")
+                .buildGet()
+                .submit()
+                .get();
+
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals(
+                "{\"value2.sub\":\"test value2 sub\"," +
+                        "\"value1\":\"test value1\"," +
+                        "\"value2\":\"test value2\"," +
+                        "\"value3\":\"test value3\"}", response.readEntity(String.class));
     }
 }
