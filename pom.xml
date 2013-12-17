@@ -28,14 +28,6 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- HTTP, REST -->
-
-        <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>javax.servlet-api</artifactId>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-
         <!-- Tests -->
 
         <dependency>
