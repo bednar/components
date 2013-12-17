@@ -68,7 +68,9 @@ public class Localization implements ApiResource
 
     @GET
     @ApiOperation(position = 1, value = "All localized texts")
-    @ApiResponse(code = 200, message = "{}")
+    @ApiResponse(
+            code = 200,
+            message = "{\"app.title\":\"This is awesome App\",\"app.description\":\"Description of App\"}")
     public void get(@Nonnull @Suspend final AsynchronousResponse response)
     {
         response.setResponse(Response.ok(texts).build());
