@@ -18,6 +18,10 @@
 
     <name>Web components</name>
 
+    <properties>
+        <github.global.server>github</github.global.server>
+    </properties>
+
     <dependencies>
 
         <!-- Bednar -->
@@ -83,6 +87,49 @@
         </plugins>
 
     </build>
+
+    <profiles>
+
+        <profile>
+            <id>publish-documentation</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <configuration>
+                            <message>Publish documentation ${project.version}</message>
+                            <repositoryName>components</repositoryName>
+                            <repositoryOwner>bednar</repositoryOwner>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>create-site</id>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                                <phase>site</phase>
+                                <configuration>
+                                    <message>Publish documentation ${project.version}</message>
+                                    <noJekyll>true</noJekyll>
+                                    <merge>false</merge>
+                                    <outputDirectory>${project.basedir}/src/test/webapp</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
 
     <repositories>
 
