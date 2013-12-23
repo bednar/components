@@ -22,6 +22,46 @@
 			<h1 id="mainHeader">Web components</h1>
 			<h2 id="introText">Documentation template from <a href="http://www.chartjs.org/docs/">Chart.js</a>.</h2>
 
+<article id="gettingStarted">
+    <h1>Getting started</h1>
+    <p>
+        Required Servlet 3.* container which
+        <a href="http://alexismp.wordpress.com/2010/04/28/web-inflib-jarmeta-infresources/">serving static content</a>
+        from dependency.
+    </p>
+
+    <h2>Include Components.js</h2>
+    <pre data-type="html"><code>&lt;!-- Development version --&gt;
+&lt;script src=&quot;lib/components/components.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;!-- Production version --&gt;
+&lt;script src=&quot;lib/components/components.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
+
+</article>
+
+<article id="maven">
+    <h1>Maven</h1>
+    <p>
+        Require Servlet 3.0 container which
+        <a href="http://alexismp.wordpress.com/2010/04/28/web-inflib-jarmeta-infresources/">serving static content</a>
+        from dependency.
+    </p>
+
+    <h2>Dependency</h2>
+    <pre data-type="xml"><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.github.bednar&lt;/groupId&gt;
+    &lt;artifactId&gt;components&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+
+                <h2>Repository</h2>
+    <pre data-type="xml"><code>&lt;repository&gt;
+    &lt;id&gt;public&lt;/id&gt;
+    &lt;name&gt;Public&lt;/name&gt;
+    &lt;url&gt;http://nexus-bednar.rhcloud.com/nexus/content/groups/public/&lt;/url&gt;
+&lt;/repository&gt;</code></pre>
+
+</article>
+
 <article id="docExample">
 <h1>Documentation Example</h1>
 <p>Section paragraph.</p>
