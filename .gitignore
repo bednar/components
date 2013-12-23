@@ -26,3 +26,6 @@ JBTest.java
 /.settings
 /.classpath
 /.project
+
+# Generated Files #
+*.js
