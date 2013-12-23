@@ -25,12 +25,12 @@
 <article id="gettingStarted">
     <h1>Getting started</h1>
 
-    <h2>Include components.js</h2>
+    <h2>Include Components.js</h2>
     <pre data-type="html"><code>&lt;!-- Development version --&gt;
-&lt;script src=&quot;lib/components/components.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;lib/components/Components.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 
 &lt;!-- Production version --&gt;
-&lt;script src=&quot;lib/components/components.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;lib/components/Components.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
 
 </article>
 
@@ -65,6 +65,9 @@
 
 &lt;!-- Production version --&gt;
 &lt;script src=&quot;lib/components/localization.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
+
+    <h2>By key</h2>
+    <pre data-type="coffee"><code>Localization.get 'app.name' # => 'Localized Application Name'</code></pre>
 
 </article>
 
