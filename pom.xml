@@ -16,7 +16,7 @@
         <version>1-SNAPSHOT</version>
     </parent>
 
-    <name>Web components based on Marionette.js</name>
+    <name>Web Components based on Marionette.js</name>
     <url>http://bednar.github.io/components/</url>
 
     <properties>
