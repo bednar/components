@@ -20,7 +20,7 @@
 		
 		<div id="contentWrapper">
 			<h1 id="mainHeader">Web components</h1>
-			<h2 id="introText">Documentation template from <a href="http://www.chartjs.org/docs/">Chart.js</a>.</h2>
+			<h2 id="introText">Thx <a href="http://www.chartjs.org/docs/">Chart.js</a> for documentation template.</h2>
 
 <article id="gettingStarted">
     <h1>Getting started</h1>
@@ -28,8 +28,43 @@
     <h2>Include components.js</h2>
     <pre data-type="html"><code>&lt;!-- Development version --&gt;
 &lt;script src=&quot;lib/components/components.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+
 &lt;!-- Production version --&gt;
 &lt;script src=&quot;lib/components/components.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
+
+</article>
+
+<article id="localization">
+    <h1>Localization</h1>
+    <p>
+        Localized texts are served from package <em>localization</em>,
+        that means all resource bundles are loaded for localization util.
+    </p>
+    <p>
+        For next directory structure are loaded files <em>app.properties</em>, <em>app_cs_CZ.properties</em>,
+        <em>user.properties</em> and <em>user_cs_CZ.properties</em>.
+    </p>
+    <pre data-type="dir-structure"><code>Maven Project
+    pom.xml
+    src
+        main
+            java
+            resources
+                localization
+                    app.properties
+                    app_cs_CZ.properties
+                    entity
+                        user.properties
+                        user_cs_CZ.properties
+        test
+            ...</code></pre>
+
+    <h2>Include localization.js</h2>
+    <pre data-type="html"><code>&lt;!-- Development version --&gt;
+&lt;script src=&quot;lib/components/localization.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Production version --&gt;
+&lt;script src=&quot;lib/components/localization.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
 
 </article>
 
