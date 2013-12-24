@@ -178,7 +178,7 @@
                     <baseDir>http://localhost:${jasmine.serverPort}</baseDir>
                     <outputDir>${project.build.directory}/coverage</outputDir>
                     <noInstrumentPatterns>
-                        <pattern>.*/specs/.*</pattern>
+                        <pattern>.*/spec/.*</pattern>
                     </noInstrumentPatterns>
                 </configuration>
             </plugin>
