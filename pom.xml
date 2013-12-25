@@ -192,6 +192,7 @@
                         <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                         <sourceDirectory>${project.basedir}/src/main/resources/META-INF/resources/</sourceDirectory>
                     </sourceDirectories>
+                    <deployedDirectoryName>src</deployedDirectoryName>
                 </configuration>
             </plugin>
 
