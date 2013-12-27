@@ -192,6 +192,8 @@
                         <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                         <sourceDirectory>${project.basedir}/src/main/resources/META-INF/resources/</sourceDirectory>
                     </sourceDirectories>
+                    <coberturaFile>${project.reporting.outputDirectory}/cobertura/coverage.xml</coberturaFile>
+                    <sagaFile>${project.build.directory}/saga-coverage/total-coverage.xml</sagaFile>
                 </configuration>
             </plugin>
 
