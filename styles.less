@@ -59,6 +59,12 @@ h2{
 	font-size: 22px;
 	line-height: 40px;
 }
+h3{
+	font-family: @primaryFont;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 40px;
+}
 #mainHeader{
 	font-size: 55px;
 }
@@ -139,6 +145,10 @@ article{
 	h2{
 		margin-top: 20px;
 	}
+    h3
+    {
+        margin-top: 10px;
+    }
 }
 
 p,ul li{
@@ -156,6 +166,25 @@ p,ul li{
 
 canvas{
 	margin-top: 20px;
+}
+.key
+{
+    font-size: 12px;
+    top: -30px;
+    left: 0;
+    font-family: @primaryFont;
+    font-weight: 400;
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 5px;
+    background-color: @borderPaleColour;
+    -webkit-font-smoothing: antialiased;
+    color: @textColour;
+    margin-right: 0.5em;
+    &:after
+    {
+        content: ': ';
+    }
 }
 pre{
 	background-color: @codeBackground;

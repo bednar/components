@@ -25,12 +25,12 @@
 <article id="gettingStarted">
     <h1>Getting started</h1>
 
-    <h2>Include components.js</h2>
+    <h2>Include Components.js</h2>
     <pre data-type="html"><code>&lt;!-- Development version --&gt;
-&lt;script src=&quot;lib/components/components.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;lib/components/Components.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 
 &lt;!-- Production version --&gt;
-&lt;script src=&quot;lib/components/components.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;lib/components/Components.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
 
 </article>
 
@@ -38,7 +38,7 @@
     <h1>Localization</h1>
     <p>
         Localized texts are served from package <em>localization</em>,
-        that means all resource bundles are loaded for localization util.
+        that means all resource bundles are loaded there.
     </p>
     <p>
         For next directory structure are loaded files <em>app.properties</em>, <em>app_cs_CZ.properties</em>,
@@ -59,12 +59,27 @@
         test
             ...</code></pre>
 
+    <h2>API</h2>
+    <p><span class="key">path</span>api/localization</p>
+
+    <h3>Parameters</h3>
+    <p><span class="key">assignTo</span>name of variable to assign (http://www.example.com/api/localization?assignTo=window.localeValues)</p>
+
+    <h3>Data</h3>
+    <pre data-type="json"><code>{
+    "app.title":"This is awesome App",
+    "app.description":"Description of App"
+}</code></pre>
+
     <h2>Include localization.js</h2>
     <pre data-type="html"><code>&lt;!-- Development version --&gt;
 &lt;script src=&quot;lib/components/localization.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 
 &lt;!-- Production version --&gt;
 &lt;script src=&quot;lib/components/localization.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
+
+    <h2>By key</h2>
+    <pre data-type="coffee"><code>Components.Localization.get 'app.name' # => 'Localized Application Name'</code></pre>
 
 </article>
 
