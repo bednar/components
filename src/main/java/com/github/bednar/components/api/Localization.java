@@ -7,18 +7,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.github.bednar.base.api.ApiResource;
-import com.github.bednar.base.utils.collection.ListAutoCloseable;
 import com.github.bednar.base.utils.reflection.FluentReflection;
-import com.github.bednar.base.utils.resource.FluentResource;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -77,7 +72,7 @@ public class Localization implements ApiResource
                     message = "{\"app.title\":\"This is awesome App\",\"app.description\":\"Description of App\"}"),
             @ApiResponse(
                     code = 200,
-                    message = "window.localization = {\"app.title\":\"This is awesome App\",\"app.description\":\"Description of App\"}")})
+                    message = "'window.localization = {\"app.title\":\"This is awesome App\",\"app.description\":\"Description of App\"}'")})
     public void get(@Nonnull @QueryParam("callbackAssignTo")
                     @ApiParam(name = "callbackAssignTo", value = "JavaScript property for assign localization texts.", required = false)
                     final String callbackAssignTo,
