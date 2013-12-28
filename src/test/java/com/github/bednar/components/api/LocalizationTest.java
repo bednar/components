@@ -52,4 +52,23 @@ public class LocalizationTest extends AbstractComponentTest
                         "\"value2\":\"test value2\"," +
                         "\"value3\":\"test value3\"}", response.readEntity(String.class));
     }
+
+    @Test
+    public void getValueAssignTo() throws ExecutionException, InterruptedException
+    {
+        Response response = ClientBuilder.newClient()
+                .target(urlPath())
+                .queryParam("callbackAssignTo", "window.localization")
+                .request("application/json")
+                .buildGet()
+                .submit()
+                .get();
+
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals(
+                "window.localization = {\"value2.sub\":\"test value2 sub\"," +
+                        "\"value1\":\"test value1\"," +
+                        "\"value2\":\"test value2\"," +
+                        "\"value3\":\"test value3\"};", response.readEntity(String.class));
+    }
 }

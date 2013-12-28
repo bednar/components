@@ -5,6 +5,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import java.util.Iterator;
@@ -21,7 +22,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -67,11 +70,19 @@ public class Localization implements ApiResource
     }
 
     @GET
-    @ApiOperation(position = 1, value = "All localized texts")
-    @ApiResponse(
-            code = 200,
-            message = "{\"app.title\":\"This is awesome App\",\"app.description\":\"Description of App\"}")
-    public void get(@Nonnull @Suspend final AsynchronousResponse response)
+    @ApiOperation(position = 1, value = "All localized texts. Support JSONP assign to variable by `callbackAssignTo` parameter.")
+    @ApiResponses({
+            @ApiResponse(
+                    code = 200,
+                    message = "{\"app.title\":\"This is awesome App\",\"app.description\":\"Description of App\"}"),
+            @ApiResponse(
+                    code = 200,
+                    message = "window.localization = {\"app.title\":\"This is awesome App\",\"app.description\":\"Description of App\"}")})
+    public void get(@Nonnull @QueryParam("callbackAssignTo")
+                    @ApiParam(name = "callbackAssignTo", value = "JavaScript property for assign localization texts.", required = false)
+                    final String callbackAssignTo,
+                    @Nonnull @Suspend
+                    final AsynchronousResponse response)
     {
         response.setResponse(Response.ok(texts).build());
     }
