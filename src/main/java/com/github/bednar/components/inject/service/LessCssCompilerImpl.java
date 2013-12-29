@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 
 import com.github.bednar.base.utils.resource.FluentResource;
+import com.github.bednar.base.utils.throwable.FluentException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.tools.shell.Global;
@@ -45,15 +46,7 @@ public class LessCssCompilerImpl implements LessCssCompiler
         }
         catch (IOException e)
         {
-            throw new LessCssCompilerImplException(e);
-        }
-    }
-
-    private class LessCssCompilerImplException extends RuntimeException
-    {
-        public LessCssCompilerImplException(final Throwable cause)
-        {
-            super(cause);
+            throw FluentException.internal(e);
         }
     }
 }
