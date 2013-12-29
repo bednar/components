@@ -55,7 +55,10 @@ public abstract class AbstractComponentTest
     }
 
     @Nonnull
-    protected abstract String getResourcePath();
+    protected String getResourcePath()
+    {
+        return "";
+    }
 
     @Nonnull
     protected String urlPath()
