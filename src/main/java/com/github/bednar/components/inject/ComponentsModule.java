@@ -1,5 +1,7 @@
 package com.github.bednar.components.inject;
 
+import com.github.bednar.components.inject.service.JadeCompiler;
+import com.github.bednar.components.inject.service.JadeCompilerImpl;
 import com.github.bednar.components.inject.service.LessCssCompiler;
 import com.github.bednar.components.inject.service.LessCssCompilerImpl;
 import org.grouplens.grapht.Context;
@@ -16,5 +18,9 @@ public class ComponentsModule implements Module
         context
                 .bind(LessCssCompiler.class)
                 .to(LessCssCompilerImpl.class);
+
+        context
+                .bind(JadeCompiler.class)
+                .to(JadeCompilerImpl.class);
     }
 }

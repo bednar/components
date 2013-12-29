@@ -9,14 +9,14 @@ import java.net.URL;
 public interface LessCssCompiler
 {
     /**
-     * @param lessPath lessPath to less file
+     * @param lessPath lessPath to Less file
      *
      * @return compiled content of File with {@code lessPath}
      */
     String compile(@Nonnull String lessPath);
 
     /**
-     * @param lessFile URL to less file
+     * @param lessFile URL to Less file
      *
      * @return compiled content of {@code lessFile}
      */

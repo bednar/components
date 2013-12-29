@@ -2,6 +2,7 @@ package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.net.URL;
 
 import com.github.bednar.base.utils.resource.FluentResource;
 import com.github.bednar.base.utils.throwable.FluentException;
@@ -84,4 +85,24 @@ public abstract class AbstractJavascriptCompiler
             throw FluentException.internal(e);
         }
     }
+
+    public String compile(@Nonnull final String path)
+    {
+        try (FluentResource resource = FluentResource.byPath(path))
+        {
+            return compile(resource, false);
+        }
+    }
+
+    @Nonnull
+    public String compile(@Nonnull final URL url)
+    {
+        try (FluentResource resource = FluentResource.byURL(url))
+        {
+            return compile(resource, false);
+        }
+    }
+
+    @Nonnull
+    protected abstract String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress);
 }

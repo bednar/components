@@ -29,6 +29,8 @@ JBTest.java
 
 # Generated Files #
 *.js
-!less-1.5.0.min.js
 !env.rhino.1.2.js
+!less-1.5.0.min.js
 !compileLess.js
+!jade.1.0.1.js
+!compileJade.js
