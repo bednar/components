@@ -31,3 +31,4 @@ JBTest.java
 *.js
 !less-1.5.0.min.js
 !env.rhino.1.2.js
+!compileLess.js
