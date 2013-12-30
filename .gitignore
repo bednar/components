@@ -34,3 +34,5 @@ JBTest.java
 !compileLess.js
 !jade.1.0.1.js
 !compileJade.js
+!coffee-script.1.6.3.js
+!compileCoffee.js

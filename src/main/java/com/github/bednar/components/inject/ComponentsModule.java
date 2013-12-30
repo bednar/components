@@ -1,5 +1,7 @@
 package com.github.bednar.components.inject;
 
+import com.github.bednar.components.inject.service.CoffeeCompiler;
+import com.github.bednar.components.inject.service.CoffeeCompilerImpl;
 import com.github.bednar.components.inject.service.JadeCompiler;
 import com.github.bednar.components.inject.service.JadeCompilerImpl;
 import com.github.bednar.components.inject.service.LessCssCompiler;
@@ -22,5 +24,9 @@ public class ComponentsModule implements Module
         context
                 .bind(JadeCompiler.class)
                 .to(JadeCompilerImpl.class);
+
+        context
+                .bind(CoffeeCompiler.class)
+                .to(CoffeeCompilerImpl.class);
     }
 }
