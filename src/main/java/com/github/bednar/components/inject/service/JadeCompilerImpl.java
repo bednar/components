@@ -11,7 +11,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler implements Jade
 {
     public JadeCompilerImpl()
     {
-        super("/compiler/env.rhino.1.2.js", "/compiler/jade/jade.1.0.1.js");
+        super("/compiler/env.rhino.1.2.js", "/lib/jade/jade.min.js");
     }
 
     @Nonnull

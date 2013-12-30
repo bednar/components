@@ -32,6 +32,13 @@
             <artifactId>base</artifactId>
         </dependency>
 
+        <!-- JavaScripts -->
+
+        <dependency>
+            <groupId>com.github.bednar</groupId>
+            <artifactId>jade</artifactId>
+        </dependency>
+
         <!-- Utils -->
 
         <dependency>

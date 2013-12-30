@@ -31,5 +31,4 @@ JBTest.java
 *.js
 !env.rhino.1.2.js
 !less-1.5.0.min.js
-!jade.1.0.1.js
 !coffee-script.1.6.3.js
