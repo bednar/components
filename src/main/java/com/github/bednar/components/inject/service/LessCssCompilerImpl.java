@@ -11,7 +11,7 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements L
 {
     public LessCssCompilerImpl()
     {
-        super("/compiler/env.rhino.1.2.js", "/compiler/less/less-1.5.0.min.js", "/compiler/less/compileLess.js");
+        super("/compiler/env.rhino.1.2.js", "/compiler/less/less-1.5.0.min.js");
     }
 
     @Nonnull
@@ -20,7 +20,15 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements L
         String lessPath     = lessResource.path();
         String lessContent  = lessResource.asString().replaceAll("\\s", " ");
 
-        String script = String.format("compileLess('%s', '%s', %s);", lessPath, lessContent, compress);
+        String script = String.format(
+                "var result;" +
+
+                "new less.Parser({filename: '%s'}).parse('%s', function (error, less)" +
+                "{" +
+                "   result = less.toCSS({ compress: %s});" +
+                "});" +
+
+                "result;", lessPath, lessContent, compress);
 
         return evaluateInline(lessPath, script);
     }
