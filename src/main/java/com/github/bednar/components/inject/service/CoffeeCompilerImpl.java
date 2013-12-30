@@ -11,7 +11,7 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler implements Co
 {
     public CoffeeCompilerImpl()
     {
-        super("/compiler/env.rhino.1.2.js", "/compiler/coffee/coffee-script.1.6.3.js", "/compiler/coffee/compileCoffee.js");
+        super("/compiler/env.rhino.1.2.js", "/compiler/coffee/coffee-script.1.6.3.js");
     }
 
     @Nonnull
@@ -21,7 +21,7 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler implements Co
         String coffeePath       = resource.path();
         String coffeeContent    = normalizeScript(resource.asString());
 
-        String script = String.format("compileCoffee('%s');", coffeeContent);
+        String script = String.format("CoffeeScript.compile('%s', {bare: false});", coffeeContent);
 
         return evaluateInline(coffeePath, script);
     }
