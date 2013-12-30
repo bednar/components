@@ -104,5 +104,11 @@ public abstract class AbstractJavascriptCompiler
     }
 
     @Nonnull
+    protected String normalizeScript(@Nonnull String script)
+    {
+        return script.replaceAll("\n", "\\\\u000A");
+    }
+
+    @Nonnull
     protected abstract String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress);
 }

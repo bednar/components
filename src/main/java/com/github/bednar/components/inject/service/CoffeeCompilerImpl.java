@@ -19,7 +19,7 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler implements Co
     protected String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress)
     {
         String coffeePath       = resource.path();
-        String coffeeContent    = resource.asString().replaceAll("\n", "\\\\u000A");
+        String coffeeContent    = normalizeScript(resource.asString());
 
         String script = String.format("compileCoffee('%s');", coffeeContent);
 

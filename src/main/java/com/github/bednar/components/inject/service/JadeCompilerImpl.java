@@ -19,7 +19,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler implements Jade
     protected String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress)
     {
         String lessPath     = resource.path();
-        String lessContent  = resource.asString().replaceAll("\n", "\\\\u000A");
+        String lessContent  = normalizeScript(resource.asString());
 
         String script = String.format("compileJade('%s', '%s', %s);", lessPath, lessContent, false);
 
