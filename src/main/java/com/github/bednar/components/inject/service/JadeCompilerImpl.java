@@ -11,7 +11,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler implements Jade
 {
     public JadeCompilerImpl()
     {
-        super("/compiler/env.rhino.1.2.js", "/compiler/jade/jade.1.0.1.js", "/compiler/jade/compileJade.js");
+        super("/compiler/env.rhino.1.2.js", "/compiler/jade/jade.1.0.1.js");
     }
 
     @Nonnull
@@ -21,7 +21,8 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler implements Jade
         String lessPath     = resource.path();
         String lessContent  = normalizeScript(resource.asString());
 
-        String script = String.format("compileJade('%s', '%s', %s);", lessPath, lessContent, false);
+        String options  = String.format("{filename: '%s', pretty: %s, client: true}", lessPath, false);
+        String script   = String.format("'' + jade.compile('%s', %s);", lessContent, options);
 
         return evaluateInline(lessPath, script).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
     }
