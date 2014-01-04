@@ -39,6 +39,12 @@
             <artifactId>jade</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.bednar</groupId>
+            <artifactId>less</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+
         <!-- Utils -->
 
         <dependency>

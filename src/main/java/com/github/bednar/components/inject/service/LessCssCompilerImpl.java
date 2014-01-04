@@ -11,7 +11,7 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements L
 {
     public LessCssCompilerImpl()
     {
-        super("/compiler/env.rhino.1.2.js", "/compiler/less/less-1.5.0.min.js");
+        super("/compiler/env.rhino.1.2.js", "/lib/less.min.js");
     }
 
     @Nonnull
