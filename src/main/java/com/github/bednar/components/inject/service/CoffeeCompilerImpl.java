@@ -11,7 +11,7 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler implements Co
 {
     public CoffeeCompilerImpl()
     {
-        super("/compiler/env.rhino.1.2.js", "/compiler/coffee/coffee-script.1.6.3.js");
+        super("/compiler/env.rhino.1.2.js", "/lib/coffee-script.min.js");
     }
 
     @Nonnull
