@@ -23,7 +23,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
     {
         LessCssCompiler compiler = injector.getInstance(LessCssCompiler.class);
 
-        String compiled = compiler.compile("/less/main.less");
+        String compiled = compiler.compile("/less/basic.less");
 
         Assert.assertEquals(".class {\n  width: 2;\n}\n", compiled);
     }
@@ -33,7 +33,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
     {
         LessCssCompiler compiler = injector.getInstance(LessCssCompiler.class);
 
-        String compiled = compiler.compile(this.getClass().getResource("/less/main.less"));
+        String compiled = compiler.compile(this.getClass().getResource("/less/basic.less"));
 
         Assert.assertEquals(".class {\n  width: 2;\n}\n", compiled);
     }
