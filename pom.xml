@@ -51,6 +51,12 @@
             <version>1.6.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.bednar</groupId>
+            <artifactId>envjs</artifactId>
+            <version>1.2.13</version>
+        </dependency>
+
         <!-- Utils -->
 
         <dependency>

@@ -34,6 +34,8 @@ public abstract class AbstractJavascriptCompiler
 
         scope = context.initStandardObjects(global);
 
+        load("/lib/env.rhino.js");
+
         for (String scriptPath : scriptPaths)
         {
             load(scriptPath);

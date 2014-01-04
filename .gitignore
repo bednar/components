@@ -29,4 +29,3 @@ JBTest.java
 
 # Generated Files #
 *.js
-!env.rhino.1.2.js
