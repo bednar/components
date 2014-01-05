@@ -42,4 +42,13 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements L
     {
         return pattern.matcher(resourcePath).matches();
     }
+
+    @Nonnull
+    @Override
+    public ResourceResponse process(@Nonnull final String resourcePath)
+    {
+        String notexist = String.format("// Resource: '%s' not exist", resourcePath);
+
+        return build(notexist, "text/css");
+    }
 }

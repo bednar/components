@@ -1,6 +1,7 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.net.URL;
 
@@ -113,4 +114,45 @@ public abstract class AbstractJavascriptCompiler
 
     @Nonnull
     protected abstract String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress);
+
+    @Nonnull
+    protected ResourceProcessor.ResourceResponse build(@Nonnull final String content, @Nonnull final String type)
+    {
+        return new AbstractResourceResponse(content.getBytes(), type);
+    }
+
+    private class AbstractResourceResponse implements ResourceProcessor.ResourceResponse
+    {
+        private final byte[] content;
+        private final Integer length;
+        private final MediaType mediaType;
+
+        public AbstractResourceResponse(@Nonnull final byte[] content, @Nonnull final String type)
+        {
+            this.content    = content;
+            this.length     = content.length;
+            this.mediaType  = MediaType.valueOf(type).withCharset("UTF-8");
+        }
+
+        @Nonnull
+        @Override
+        public Integer getContentLength()
+        {
+            return length;
+        }
+
+        @Nonnull
+        @Override
+        public MediaType getContentType()
+        {
+            return mediaType;
+        }
+
+        @Nonnull
+        @Override
+        public byte[] getContent()
+        {
+            return content;
+        }
+    }
 }

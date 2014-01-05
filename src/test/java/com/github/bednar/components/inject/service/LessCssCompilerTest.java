@@ -49,16 +49,29 @@ public class LessCssCompilerTest extends AbstractComponentTest
     @Test
     public void acceptedType()
     {
-        LessCssCompiler compiler = injector.getInstance(LessCssCompiler.class);
+        ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
 
-        Assert.assertTrue(compiler.isAcceptedType("/less/basic.less"));
+        Assert.assertTrue(processor.isAcceptedType("/less/basic.less"));
     }
 
     @Test
     public void notAcceptedType()
     {
-        LessCssCompiler compiler = injector.getInstance(LessCssCompiler.class);
+        ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
 
-        Assert.assertFalse(compiler.isAcceptedType("/coffee/basic.coffee"));
+        Assert.assertFalse(processor.isAcceptedType("/coffee/basic.coffee"));
+    }
+
+    @Test
+    public void processNotExistResource()
+    {
+        ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
+
+        ResourceProcessor.ResourceResponse response = processor.process("/less/notexist.less");
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals((Object) 44, response.getContentLength());
+        Assert.assertEquals("text/css;charset=UTF-8", response.getContentType().toString());
+        Assert.assertEquals("// Resource: '/less/notexist.less' not exist", new String(response.getContent()));
     }
 }
