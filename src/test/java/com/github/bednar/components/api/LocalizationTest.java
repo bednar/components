@@ -1,9 +1,7 @@
 package com.github.bednar.components.api;
 
-import javax.annotation.Nonnull;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
-
 import java.util.concurrent.ExecutionException;
 
 import com.github.bednar.components.AbstractComponentTest;
@@ -15,18 +13,11 @@ import org.junit.Test;
  */
 public class LocalizationTest extends AbstractComponentTest
 {
-    @Nonnull
-    @Override
-    protected String getResourcePath()
-    {
-        return "localization";
-    }
-
     @Test
     public void get() throws ExecutionException, InterruptedException
     {
         Response response = ClientBuilder.newClient()
-                .target(urlPath())
+                .target(url("api", "localization"))
                 .request("application/json")
                 .buildGet()
                 .submit()
@@ -39,7 +30,7 @@ public class LocalizationTest extends AbstractComponentTest
     public void getValue() throws ExecutionException, InterruptedException
     {
         Response response = ClientBuilder.newClient()
-                .target(urlPath())
+                .target(url("api", "localization"))
                 .request("application/json")
                 .buildGet()
                 .submit()
@@ -57,7 +48,7 @@ public class LocalizationTest extends AbstractComponentTest
     public void getValueAssignTo() throws ExecutionException, InterruptedException
     {
         Response response = ClientBuilder.newClient()
-                .target(urlPath())
+                .target(url("api", "localization"))
                 .queryParam("callbackAssignTo", "window.localization")
                 .request("application/json")
                 .buildGet()

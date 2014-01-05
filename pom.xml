@@ -32,6 +32,14 @@
             <artifactId>base</artifactId>
         </dependency>
 
+        <!-- HTTP -->
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- JavaScripts -->
 
         <dependency>

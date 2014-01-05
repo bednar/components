@@ -5,7 +5,6 @@ import javax.annotation.Nonnull;
 import com.github.bednar.base.http.AppContext;
 import com.github.bednar.base.inject.Injector;
 import com.github.bednar.test.EmbeddedJetty;
-import com.google.common.base.Preconditions;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -55,22 +54,8 @@ public abstract class AbstractComponentTest
     }
 
     @Nonnull
-    protected String getResourcePath()
+    protected String url(@Nonnull final String... paths)
     {
-        return "";
-    }
-
-    @Nonnull
-    protected String urlPath()
-    {
-        return urlPath(getResourcePath());
-    }
-
-    @Nonnull
-    protected String urlPath(@Nonnull final String resource)
-    {
-        Preconditions.checkNotNull(resource);
-
-        return embeddedJetty.getURL() + "api/" + resource;
+        return embeddedJetty.getURL(paths);
     }
 }
