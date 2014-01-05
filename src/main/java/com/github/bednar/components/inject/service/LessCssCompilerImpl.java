@@ -1,6 +1,7 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import java.util.regex.Pattern;
 
 import com.github.bednar.base.utils.resource.FluentResource;
 
@@ -9,6 +10,8 @@ import com.github.bednar.base.utils.resource.FluentResource;
  */
 public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements LessCssCompiler
 {
+    private final Pattern pattern = Pattern.compile(".*\\.less");
+
     public LessCssCompilerImpl()
     {
         super("/lib/less.min.js");
@@ -31,5 +34,12 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements L
                 "result;", lessPath, lessContent, compress);
 
         return evaluateInline(lessPath, script);
+    }
+
+    @Nonnull
+    @Override
+    public Boolean isAcceptedType(@Nonnull final String resourcePath)
+    {
+        return pattern.matcher(resourcePath).matches();
     }
 }

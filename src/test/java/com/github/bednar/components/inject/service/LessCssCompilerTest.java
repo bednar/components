@@ -45,4 +45,20 @@ public class LessCssCompilerTest extends AbstractComponentTest
 
         compiler.compile("/less/error.less");
     }
+
+    @Test
+    public void acceptedType()
+    {
+        LessCssCompiler compiler = injector.getInstance(LessCssCompiler.class);
+
+        Assert.assertTrue(compiler.isAcceptedType("/less/basic.less"));
+    }
+
+    @Test
+    public void notAcceptedType()
+    {
+        LessCssCompiler compiler = injector.getInstance(LessCssCompiler.class);
+
+        Assert.assertFalse(compiler.isAcceptedType("/coffee/basic.coffee"));
+    }
 }

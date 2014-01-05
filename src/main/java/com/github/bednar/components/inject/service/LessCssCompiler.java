@@ -6,7 +6,7 @@ import java.net.URL;
 /**
  * @author Jakub Bednář (29/12/2013 11:31)
  */
-public interface LessCssCompiler
+public interface LessCssCompiler extends ResourceProcessor
 {
     /**
      * @param lessPath lessPath to Less file
