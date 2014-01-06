@@ -64,13 +64,13 @@ public class ResourceServlet extends HttpServlet
 
         if (processor != null)
         {
-            ResourceProcessor.ResourceResponse content = processor.process(req.getRequestURI());
+            ResourceProcessor.ResourceResponse content = processor.process(req.getRequestURI(), false);
 
             IOUtils.write(content.getContent(), resp.getOutputStream());
 
             resp.setCharacterEncoding(content.getContentType().getParameters().get(MediaType.CHARSET_PARAMETER));
             resp.setContentType(content.getContentType().toString());
-            resp.setContentLength(content.getContentLength().intValue());
+            resp.setContentLength(content.getContentLength());
             resp.setStatus(HttpServletResponse.SC_OK);
 
             LOG.info("[resource processed...][{}]", req.getRequestURI());

@@ -45,10 +45,21 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements L
 
     @Nonnull
     @Override
-    public ResourceResponse process(@Nonnull final String resourcePath)
+    public ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final Boolean pretty)
     {
-        String notexist = String.format("// Resource: '%s' not exist", resourcePath);
+        try (FluentResource resource = FluentResource.byPath(resourcePath))
+        {
+            String content;
+            if (resource.exists())
+            {
+                content = compile(resource, pretty);
+            }
+            else
+            {
+                content = String.format("// Resource: '%s' not exist", resourcePath);
+            }
 
-        return build(notexist, "text/css");
+            return build(content, "text/css");
+        }
     }
 }

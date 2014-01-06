@@ -63,11 +63,24 @@ public class LessCssCompilerTest extends AbstractComponentTest
     }
 
     @Test
+    public void processExistResource()
+    {
+        ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
+
+        ResourceProcessor.ResourceResponse response = processor.process("/less/basic.less", false);
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals((Object) 23, response.getContentLength());
+        Assert.assertEquals("text/css;charset=UTF-8", response.getContentType().toString());
+        Assert.assertEquals(".class {\n  width: 2;\n}\n", new String(response.getContent()));
+    }
+
+    @Test
     public void processNotExistResource()
     {
         ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
 
-        ResourceProcessor.ResourceResponse response = processor.process("/less/notexist.less");
+        ResourceProcessor.ResourceResponse response = processor.process("/less/notexist.less", false);
 
         Assert.assertNotNull(response);
         Assert.assertEquals((Object) 44, response.getContentLength());

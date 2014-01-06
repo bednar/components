@@ -20,11 +20,12 @@ public interface ResourceProcessor
      * If resource with {@code resourcePath} not exist, than must return default 'NotExist' resource.
      *
      * @param resourcePath path to resource
+     * @param pretty       if {@link Boolean#TRUE} than code is pretty formated
      *
      * @return cached response for resource with {@code resourcePath}
      */
     @Nonnull
-    ResourceResponse process(@Nonnull final String resourcePath);
+    ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final Boolean pretty);
 
     public interface ResourceResponse
     {
