@@ -40,6 +40,6 @@ public class ResourcesServletLessTest extends AbstractComponentTest
 
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("text/css;charset=UTF-8", response.getMediaType().toString());
-        Assert.assertEquals(".class{width:2}", response.readEntity(String.class));
+        Assert.assertEquals(".class {\n  width: 2;\n}\n", response.readEntity(String.class));
     }
 }
