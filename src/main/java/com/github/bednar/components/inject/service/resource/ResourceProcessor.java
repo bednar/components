@@ -1,7 +1,6 @@
-package com.github.bednar.components.inject.service;
+package com.github.bednar.components.inject.service.resource;
 
 import javax.annotation.Nonnull;
-import javax.ws.rs.core.MediaType;
 
 /**
  * @author Jakub Bednář (05/01/2014 13:21)
@@ -27,24 +26,4 @@ public interface ResourceProcessor
     @Nonnull
     ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final Boolean pretty);
 
-    public interface ResourceResponse
-    {
-        /**
-         * @return length of content
-         */
-        @Nonnull
-        Integer getContentLength();
-
-        /**
-         * @return type of content
-         */
-        @Nonnull
-        MediaType getContentType();
-
-        /**
-         * @return content
-         */
-        @Nonnull
-        byte[] getContent();
-    }
 }

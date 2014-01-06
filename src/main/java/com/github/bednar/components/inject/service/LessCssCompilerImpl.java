@@ -1,9 +1,12 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import javax.cache.Cache;
 import java.util.regex.Pattern;
 
+import com.github.bednar.base.utils.cache.FluentCache;
 import com.github.bednar.base.utils.resource.FluentResource;
+import com.github.bednar.components.inject.service.resource.ResourceResponse;
 
 /**
  * @author Jakub Bednář (29/12/2013 11:32)
@@ -11,10 +14,13 @@ import com.github.bednar.base.utils.resource.FluentResource;
 public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements LessCssCompiler
 {
     private final Pattern pattern = Pattern.compile(".*\\.less");
+    private final Cache<String, ResourceResponse> cache;
 
     public LessCssCompilerImpl()
     {
         super("/lib/less.min.js");
+
+        cache = FluentCache.cacheByClass(LessCssCompilerImpl.class, String.class, ResourceResponse.class);
     }
 
     @Nonnull
@@ -49,17 +55,27 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements L
     {
         try (FluentResource resource = FluentResource.byPath(resourcePath))
         {
-            String content;
+            if (cache.containsKey(resource.path()))
+            {
+                return cache.get(resource.path());
+            }
+
             if (resource.exists())
             {
-                content = compile(resource, !pretty);
+                String content = compile(resource, !pretty);
+
+                ResourceResponse response = build(content, "text/css");
+
+                cache.put(resource.path(), response);
+
+                return response;
             }
             else
             {
-                content = String.format("// Resource: '%s' not exist", resourcePath);
-            }
+                String content = String.format("// Resource: '%s' not exist", resourcePath);
 
-            return build(content, "text/css");
+                return build(content, "text/css");
+            }
         }
     }
 }

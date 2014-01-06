@@ -1,12 +1,13 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.net.URL;
 
 import com.github.bednar.base.utils.resource.FluentResource;
 import com.github.bednar.base.utils.throwable.FluentException;
+import com.github.bednar.components.inject.service.resource.GenericResourceResponse;
+import com.github.bednar.components.inject.service.resource.ResourceResponse;
 import org.apache.commons.lang3.time.StopWatch;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -116,43 +117,9 @@ public abstract class AbstractJavascriptCompiler
     protected abstract String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress);
 
     @Nonnull
-    protected ResourceProcessor.ResourceResponse build(@Nonnull final String content, @Nonnull final String type)
+    protected ResourceResponse build(@Nonnull final String content, @Nonnull final String type)
     {
-        return new AbstractResourceResponse(content.getBytes(), type);
+        return new GenericResourceResponse(content.getBytes(), type);
     }
 
-    private class AbstractResourceResponse implements ResourceProcessor.ResourceResponse
-    {
-        private final byte[] content;
-        private final Integer length;
-        private final MediaType mediaType;
-
-        public AbstractResourceResponse(@Nonnull final byte[] content, @Nonnull final String type)
-        {
-            this.content    = content;
-            this.length     = content.length;
-            this.mediaType  = MediaType.valueOf(type).withCharset("UTF-8");
-        }
-
-        @Nonnull
-        @Override
-        public Integer getContentLength()
-        {
-            return length;
-        }
-
-        @Nonnull
-        @Override
-        public MediaType getContentType()
-        {
-            return mediaType;
-        }
-
-        @Nonnull
-        @Override
-        public byte[] getContent()
-        {
-            return content;
-        }
-    }
 }

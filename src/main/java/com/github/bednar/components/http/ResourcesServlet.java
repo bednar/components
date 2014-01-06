@@ -6,14 +6,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.Set;
 
 import com.github.bednar.base.http.AppBootstrap;
 import com.github.bednar.base.inject.Injector;
 import com.github.bednar.components.inject.service.LessCssCompiler;
-import com.github.bednar.components.inject.service.ResourceProcessor;
+import com.github.bednar.components.inject.service.resource.ResourceProcessor;
+import com.github.bednar.components.inject.service.resource.ResourceResponse;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -66,12 +66,12 @@ public class ResourcesServlet extends HttpServlet
 
         if (processor != null)
         {
-            ResourceProcessor.ResourceResponse content = processor.process(requestURI, true);
+            ResourceResponse content = processor.process(requestURI, true);
 
             IOUtils.write(content.getContent(), resp.getOutputStream());
 
-            resp.setCharacterEncoding(content.getContentType().getParameters().get(MediaType.CHARSET_PARAMETER));
-            resp.setContentType(content.getContentType().toString());
+            resp.setCharacterEncoding(content.getCharacterEncoding());
+            resp.setContentType(content.getContentType());
             resp.setContentLength(content.getContentLength());
             resp.setStatus(HttpServletResponse.SC_OK);
 

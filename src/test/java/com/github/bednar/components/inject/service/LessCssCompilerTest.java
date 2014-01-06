@@ -1,8 +1,12 @@
 package com.github.bednar.components.inject.service;
 
+import com.github.bednar.base.utils.resource.FluentResource;
 import com.github.bednar.components.AbstractComponentTest;
+import com.github.bednar.components.inject.service.resource.ResourceProcessor;
+import com.github.bednar.components.inject.service.resource.ResourceResponse;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.mozilla.javascript.JavaScriptException;
 
 /**
@@ -67,12 +71,13 @@ public class LessCssCompilerTest extends AbstractComponentTest
     {
         ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
 
-        ResourceProcessor.ResourceResponse response = processor.process("/less/basic.less", false);
+        ResourceResponse response = processor.process("/less/remote.less", false);
 
         Assert.assertNotNull(response);
-        Assert.assertEquals((Object) 23, response.getContentLength());
-        Assert.assertEquals("text/css;charset=UTF-8", response.getContentType().toString());
-        Assert.assertEquals(".class {\n  width: 2;\n}\n", new String(response.getContent()));
+        Assert.assertEquals((Object) 31, response.getContentLength());
+        Assert.assertEquals("text/css;charset=UTF-8", response.getContentType());
+        Assert.assertEquals("UTF-8", response.getCharacterEncoding());
+        Assert.assertEquals("p .for-remote-test{margin:10px}", new String(response.getContent()));
     }
 
     @Test
@@ -80,11 +85,28 @@ public class LessCssCompilerTest extends AbstractComponentTest
     {
         ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
 
-        ResourceProcessor.ResourceResponse response = processor.process("/less/notexist.less", false);
+        ResourceResponse response = processor.process("/less/notexist.less", false);
 
         Assert.assertNotNull(response);
         Assert.assertEquals((Object) 44, response.getContentLength());
-        Assert.assertEquals("text/css;charset=UTF-8", response.getContentType().toString());
+        Assert.assertEquals("text/css;charset=UTF-8", response.getContentType());
+        Assert.assertEquals("UTF-8", response.getCharacterEncoding());
         Assert.assertEquals("// Resource: '/less/notexist.less' not exist", new String(response.getContent()));
+    }
+
+    @Test
+    public void useCache()
+    {
+        LessCssCompilerImpl compiler = (LessCssCompilerImpl) injector.getInstance(LessCssCompiler.class);
+
+        LessCssCompilerImpl spy = Mockito.spy(compiler);
+
+        spy.process("/less/cache.less", false);
+        spy.process("/less/cache.less", false);
+
+        try (FluentResource resource = FluentResource.byPath("/less/cache.less"))
+        {
+            Mockito.verify(spy, Mockito.times(1)).compile(resource, true);
+        }
     }
 }
