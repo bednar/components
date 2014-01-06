@@ -6,13 +6,13 @@
     <name>components</name>
 
     <servlet>
-        <servlet-name>Resource</servlet-name>
-        <servlet-class>com.github.bednar.components.http.ResourceServlet</servlet-class>
+        <servlet-name>Resources</servlet-name>
+        <servlet-class>com.github.bednar.components.http.ResourcesServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>Resource</servlet-name>
-        <url-pattern>/resource/*</url-pattern>
+        <servlet-name>Resources</servlet-name>
+        <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
 
     <mime-mapping>

@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Jakub Bednář (05/01/2014 12:10)
  */
-public class ResourceServlet extends HttpServlet
+public class ResourcesServlet extends HttpServlet
 {
-    private static final Logger LOG = LoggerFactory.getLogger(ResourceServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResourcesServlet.class);
 
     private Set<ResourceProcessor> processors = Sets.newHashSet();
 
@@ -51,20 +51,22 @@ public class ResourceServlet extends HttpServlet
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException
     {
-        LOG.info("[resource processing...][{}]", req.getRequestURI());
+        final String requestURI = req.getRequestURI().replaceAll("/resources", "");
+
+        LOG.info("[resource processing...][{}]", requestURI);
 
         ResourceProcessor processor = Iterables.find(processors, new Predicate<ResourceProcessor>()
         {
             @Override
             public boolean apply(@Nullable final ResourceProcessor input)
             {
-                return input != null && input.isAcceptedType(req.getRequestURI());
+                return input != null && input.isAcceptedType(requestURI);
             }
         });
 
         if (processor != null)
         {
-            ResourceProcessor.ResourceResponse content = processor.process(req.getRequestURI(), false);
+            ResourceProcessor.ResourceResponse content = processor.process(requestURI, false);
 
             IOUtils.write(content.getContent(), resp.getOutputStream());
 
@@ -73,11 +75,11 @@ public class ResourceServlet extends HttpServlet
             resp.setContentLength(content.getContentLength());
             resp.setStatus(HttpServletResponse.SC_OK);
 
-            LOG.info("[resource processed...][{}]", req.getRequestURI());
+            LOG.info("[resource processed...][{}]", requestURI);
         }
         else
         {
-            LOG.info("[cannot-find-processor][{}]", req.getRequestURI());
+            LOG.info("[cannot-find-processor][{}]", requestURI);
 
             super.doGet(req, resp);
         }

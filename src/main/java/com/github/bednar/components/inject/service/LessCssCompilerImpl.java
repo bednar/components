@@ -52,7 +52,7 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements L
             String content;
             if (resource.exists())
             {
-                content = compile(resource, pretty);
+                content = compile(resource, !pretty);
             }
             else
             {
