@@ -80,7 +80,7 @@ public class JadeCompilerTest extends AbstractComponentTest
 
         Assert.assertNotNull(response);
         Assert.assertEquals((Object) 162, response.getContentLength());
-        Assert.assertEquals("text/html;charset=UTF-8", response.getContentType());
+        Assert.assertEquals("application/javascript;charset=UTF-8", response.getContentType());
         Assert.assertEquals("UTF-8", response.getCharacterEncoding());
         Assert.assertEquals(
                         "function template(locals) {var buf = [];var jade_mixins = {};" +
@@ -97,10 +97,10 @@ public class JadeCompilerTest extends AbstractComponentTest
         ResourceResponse response = processor.process("/jade/notexist.jade", JadeCompilerCfg.build());
 
         Assert.assertNotNull(response);
-        Assert.assertEquals((Object) 50, response.getContentLength());
-        Assert.assertEquals("text/html;charset=UTF-8", response.getContentType());
+        Assert.assertEquals((Object) 44, response.getContentLength());
+        Assert.assertEquals("application/javascript;charset=UTF-8", response.getContentType());
         Assert.assertEquals("UTF-8", response.getCharacterEncoding());
-        Assert.assertEquals("<!-- Resource: '/jade/notexist.jade' not exist -->", new String(response.getContent()));
+        Assert.assertEquals("// Resource: '/jade/notexist.jade' not exist", new String(response.getContent()));
     }
 
     @Test

@@ -25,7 +25,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
     @Override
     protected String contentType()
     {
-        return "text/html";
+        return "application/javascript";
     }
 
     @Nonnull
@@ -46,12 +46,5 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
         String script   = String.format("'' + jade.compile('%s', %s);", lessContent, options);
 
         return evaluateInline(lessPath, script).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
-    }
-
-    @Nonnull
-    @Override
-    protected String notExistResourceContent(@Nonnull final String resourcePath)
-    {
-        return String.format("<!-- Resource: '%s' not exist -->", resourcePath);
     }
 }
