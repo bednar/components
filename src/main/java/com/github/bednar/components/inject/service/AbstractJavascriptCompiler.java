@@ -64,7 +64,7 @@ public abstract class AbstractJavascriptCompiler implements ResourceProcessor
     protected abstract String contentType();
 
     @Nonnull
-    public String compile(@Nonnull final String path)
+    public final String compile(@Nonnull final String path)
     {
         try (FluentResource resource = FluentResource.byPath(path))
         {
@@ -73,7 +73,7 @@ public abstract class AbstractJavascriptCompiler implements ResourceProcessor
     }
 
     @Nonnull
-    public String compile(@Nonnull final URL url)
+    public final String compile(@Nonnull final URL url)
     {
         try (FluentResource resource = FluentResource.byURL(url))
         {
@@ -82,7 +82,7 @@ public abstract class AbstractJavascriptCompiler implements ResourceProcessor
     }
 
     @Nonnull
-    public Boolean isAcceptedType(@Nonnull final String resourcePath)
+    public final Boolean isAcceptedType(@Nonnull final String resourcePath)
     {
         return pattern.matcher(resourcePath).matches();
     }
@@ -148,7 +148,7 @@ public abstract class AbstractJavascriptCompiler implements ResourceProcessor
     }
 
     @Nonnull
-    protected ResourceResponse build(@Nonnull final String content)
+    private ResourceResponse build(@Nonnull final String content)
     {
         return new GenericResourceResponse(content.getBytes(), contentType());
     }
