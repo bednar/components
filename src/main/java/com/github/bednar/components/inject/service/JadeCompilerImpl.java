@@ -18,12 +18,26 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler implements Jade
 
     @Nonnull
     @Override
+    protected String resourceRegexp()
+    {
+        return ".*\\.jade";
+    }
+
+    @Nonnull
+    @Override
+    protected String contentType()
+    {
+        throw new NotImplementedException();
+    }
+
+    @Nonnull
+    @Override
     protected String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress)
     {
         String lessPath     = resource.path();
         String lessContent  = normalizeScript(resource.asString());
 
-        String options  = String.format("{filename: '%s', pretty: %s, client: true}", lessPath, false);
+        String options  = String.format("{filename: '%s', pretty: %s, client: true}", lessPath, !compress);
         String script   = String.format("'' + jade.compile('%s', %s);", lessContent, options);
 
         return evaluateInline(lessPath, script).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
@@ -31,14 +45,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler implements Jade
 
     @Nonnull
     @Override
-    public Boolean isAcceptedType(@Nonnull final String resourcePath)
-    {
-        throw new NotImplementedException();
-    }
-
-    @Nonnull
-    @Override
-    public ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final Boolean pretty)
+    public ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final Boolean compress)
     {
         throw new NotImplementedException();
     }

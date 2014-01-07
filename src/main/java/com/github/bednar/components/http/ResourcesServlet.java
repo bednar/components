@@ -66,7 +66,7 @@ public class ResourcesServlet extends HttpServlet
 
         if (processor != null)
         {
-            ResourceResponse content = processor.process(requestURI, true);
+            ResourceResponse content = processor.process(requestURI, false);
 
             IOUtils.write(content.getContent(), resp.getOutputStream());
 

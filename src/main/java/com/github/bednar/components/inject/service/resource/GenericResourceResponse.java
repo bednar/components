@@ -14,11 +14,11 @@ public class GenericResourceResponse implements ResourceResponse, Serializable
     private final String type;
     private final String characterEncoding;
 
-    public GenericResourceResponse(@Nonnull final byte[] content, @Nonnull final String type)
+    public GenericResourceResponse(@Nonnull final byte[] content, @Nonnull final String contentType)
     {
         this.content            = content;
         this.length             = content.length;
-        this.type               = type;
+        this.type               = contentType;
         this.characterEncoding  = "UTF-8";
     }
 

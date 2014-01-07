@@ -1,12 +1,16 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import javax.cache.Cache;
 import java.io.IOException;
 import java.net.URL;
+import java.util.regex.Pattern;
 
+import com.github.bednar.base.utils.cache.FluentCache;
 import com.github.bednar.base.utils.resource.FluentResource;
 import com.github.bednar.base.utils.throwable.FluentException;
 import com.github.bednar.components.inject.service.resource.GenericResourceResponse;
+import com.github.bednar.components.inject.service.resource.ResourceProcessor;
 import com.github.bednar.components.inject.service.resource.ResourceResponse;
 import org.apache.commons.lang3.time.StopWatch;
 import org.mozilla.javascript.Context;
@@ -18,12 +22,15 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Jakub Bednář (29/12/2013 18:02)
  */
-public abstract class AbstractJavascriptCompiler
+public abstract class AbstractJavascriptCompiler implements ResourceProcessor
 {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractJavascriptCompiler.class);
 
     private final Context context;
     private final Scriptable scope;
+    private final Pattern pattern;
+
+    private final Cache<String, ResourceResponse> cache;
 
     public AbstractJavascriptCompiler(@Nonnull String... scriptPaths)
     {
@@ -41,6 +48,71 @@ public abstract class AbstractJavascriptCompiler
         for (String scriptPath : scriptPaths)
         {
             load(scriptPath);
+        }
+
+        pattern = Pattern.compile(resourceRegexp());
+        cache   = FluentCache.cacheByClass(LessCssCompilerImpl.class, String.class, ResourceResponse.class);
+    }
+
+    @Nonnull
+    protected abstract String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress);
+
+    @Nonnull
+    protected abstract String resourceRegexp();
+
+    @Nonnull
+    protected abstract String contentType();
+
+    @Nonnull
+    public String compile(@Nonnull final String path)
+    {
+        try (FluentResource resource = FluentResource.byPath(path))
+        {
+            return compile(resource, true);
+        }
+    }
+
+    @Nonnull
+    public String compile(@Nonnull final URL url)
+    {
+        try (FluentResource resource = FluentResource.byURL(url))
+        {
+            return compile(resource, true);
+        }
+    }
+
+    @Nonnull
+    public Boolean isAcceptedType(@Nonnull final String resourcePath)
+    {
+        return pattern.matcher(resourcePath).matches();
+    }
+
+    @Nonnull
+    public ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final Boolean compress)
+    {
+        try (FluentResource resource = FluentResource.byPath(resourcePath))
+        {
+            if (cache.containsKey(resource.path()))
+            {
+                return cache.get(resource.path());
+            }
+
+            if (resource.exists())
+            {
+                String content = compile(resource, compress);
+
+                ResourceResponse response = build(content);
+
+                cache.put(resource.path(), response);
+
+                return response;
+            }
+            else
+            {
+                String content = String.format("// Resource: '%s' not exist", resourcePath);
+
+                return build(content);
+            }
         }
     }
 
@@ -69,6 +141,18 @@ public abstract class AbstractJavascriptCompiler
         }
     }
 
+    @Nonnull
+    protected String normalizeScript(@Nonnull String script)
+    {
+        return script.replaceAll("\n", "\\\\u000A");
+    }
+
+    @Nonnull
+    protected ResourceResponse build(@Nonnull final String content)
+    {
+        return new GenericResourceResponse(content.getBytes(), contentType());
+    }
+
     private void load(@Nonnull final String scriptPath)
     {
         StopWatch watch = new StopWatch();
@@ -89,37 +173,4 @@ public abstract class AbstractJavascriptCompiler
             throw FluentException.internal(e);
         }
     }
-
-    public String compile(@Nonnull final String path)
-    {
-        try (FluentResource resource = FluentResource.byPath(path))
-        {
-            return compile(resource, false);
-        }
-    }
-
-    @Nonnull
-    public String compile(@Nonnull final URL url)
-    {
-        try (FluentResource resource = FluentResource.byURL(url))
-        {
-            return compile(resource, false);
-        }
-    }
-
-    @Nonnull
-    protected String normalizeScript(@Nonnull String script)
-    {
-        return script.replaceAll("\n", "\\\\u000A");
-    }
-
-    @Nonnull
-    protected abstract String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress);
-
-    @Nonnull
-    protected ResourceResponse build(@Nonnull final String content, @Nonnull final String type)
-    {
-        return new GenericResourceResponse(content.getBytes(), type);
-    }
-
 }

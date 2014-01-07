@@ -29,7 +29,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
 
         String compiled = compiler.compile("/less/basic.less");
 
-        Assert.assertEquals(".class {\n  width: 2;\n}\n", compiled);
+        Assert.assertEquals(".class{width:2}", compiled);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
 
         String compiled = compiler.compile(this.getClass().getResource("/less/basic.less"));
 
-        Assert.assertEquals(".class {\n  width: 2;\n}\n", compiled);
+        Assert.assertEquals(".class{width:2}", compiled);
     }
 
     @Test(expected = JavaScriptException.class)
@@ -71,7 +71,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
     {
         ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
 
-        ResourceResponse response = processor.process("/less/remote.less", false);
+        ResourceResponse response = processor.process("/less/remote.less", true);
 
         Assert.assertNotNull(response);
         Assert.assertEquals((Object) 31, response.getContentLength());
@@ -85,7 +85,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
     {
         ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
 
-        ResourceResponse response = processor.process("/less/notexist.less", false);
+        ResourceResponse response = processor.process("/less/notexist.less", true);
 
         Assert.assertNotNull(response);
         Assert.assertEquals((Object) 44, response.getContentLength());
@@ -106,7 +106,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
 
         try (FluentResource resource = FluentResource.byPath("/less/cache.less"))
         {
-            Mockito.verify(spy, Mockito.times(1)).compile(resource, true);
+            Mockito.verify(spy, Mockito.times(1)).compile(resource, false);
         }
     }
 }
