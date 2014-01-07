@@ -2,7 +2,6 @@ package com.github.bednar.components.inject.service;
 
 import com.github.bednar.base.utils.resource.FluentResource;
 import com.github.bednar.components.AbstractComponentTest;
-import com.github.bednar.components.inject.service.resource.ResourceProcessor;
 import com.github.bednar.components.inject.service.resource.ResourceResponse;
 import org.junit.Assert;
 import org.junit.Test;
@@ -53,7 +52,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
     @Test
     public void acceptedType()
     {
-        ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
+        LessCssCompiler processor = injector.getInstance(LessCssCompiler.class);
 
         Assert.assertTrue(processor.isAcceptedType("/less/basic.less"));
     }
@@ -61,7 +60,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
     @Test
     public void notAcceptedType()
     {
-        ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
+        LessCssCompiler processor = injector.getInstance(LessCssCompiler.class);
 
         Assert.assertFalse(processor.isAcceptedType("/coffee/basic.coffee"));
     }
@@ -69,7 +68,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
     @Test
     public void processExistResource()
     {
-        ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
+        LessCssCompiler processor = injector.getInstance(LessCssCompiler.class);
 
         ResourceResponse response = processor.process("/less/remote.less", LessCssCompilerCfg.build());
 
@@ -83,7 +82,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
     @Test
     public void processNotExistResource()
     {
-        ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
+        LessCssCompiler processor = injector.getInstance(LessCssCompiler.class);
 
         ResourceResponse response = processor.process("/less/notexist.less", LessCssCompilerCfg.build());
 
