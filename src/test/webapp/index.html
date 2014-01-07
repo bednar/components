@@ -22,23 +22,11 @@
 			<h1 id="mainHeader">Web Components</h1>
 			<h2 id="introText">Thx <a href="http://www.chartjs.org/docs/">Chart.js</a> for documentation template.</h2>
 
-<article id="gettingStarted">
-    <h1>Getting started</h1>
-
-    <h2>Include Components.js</h2>
-    <pre data-type="html"><code>&lt;!-- Development version --&gt;
-&lt;script src=&quot;lib/components/Components.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-
-&lt;!-- Production version --&gt;
-&lt;script src=&quot;lib/components/Components.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code></pre>
-
-</article>
-
 <article id="webResourceCompiler">
     <h1>Web Resource Compiler</h1>
-    <p>
-        Supported resources are included to HTML page with <em>Java Resource path.</em> For <em>main.less</em>:
-    </p>
+
+    <h2>LESS</h2>
+    <p>For <em>main.less</em>:</p>
     <pre data-type="dir-structure"><code>Maven Project
     pom.xml
         src
@@ -48,24 +36,36 @@
                     styles
                         form.less
                         main.less
-        test
-        ...</code></pre>
+            test
+                ...</code></pre>
     <p>
         use:
     </p>
     <pre data-type="html"><code>&lt;link rel="stylesheet" type="text/css" href="resources/styles/main.less"&gt;</code></pre>
 
-    <h2>LESS</h2>
+    <h2>CoffeScript</h2>
+    <p>For <em>utils.coffee</em>:</p>
+    <pre data-type="dir-structure"><code>Maven Project
+    pom.xml
+        src
+            main
+                java
+                    resources
+                        coffee
+                            utils.coffee
+            test
+                ...</code></pre>
     <p>
-        Support <a href="http://lesscss.org/#-importing">importing</a> by <em>@import</em>.
+        use:
     </p>
+    <pre data-type="html"><code>&lt;script type="text/javascript" src="resources/coffee/utils.coffee"&gt;&lt;/script&gt;</code></pre>
 </article>
 
 <article id="localization">
     <h1>Localization</h1>
     <p>
-        Localized texts are served from package <em>localization</em>. For next directory structure
-        are loaded files <em>app.properties</em>, <em>app_cs_CZ.properties</em>, <em>user.properties</em> and
+        Localized texts are served from package <em>localization</em>. For next <em>dir-structure</em>
+        serve files <em>app.properties</em>, <em>app_cs_CZ.properties</em>, <em>user.properties</em> and
         <em>user_cs_CZ.properties</em>.
     </p>
     <pre data-type="dir-structure"><code>Maven Project
