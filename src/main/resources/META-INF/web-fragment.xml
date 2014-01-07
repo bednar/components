@@ -25,4 +25,9 @@
         <mime-type>application/javascript</mime-type>
     </mime-mapping>
 
+    <mime-mapping>
+        <extension>jade</extension>
+        <mime-type>text/html</mime-type>
+    </mime-mapping>
+    
 </web-fragment>
