@@ -14,7 +14,7 @@ import org.junit.Test;
 public class ResourcesServletLessTest extends AbstractComponentTest
 {
     @Test
-    public void contentForNotExistResource() throws ExecutionException, InterruptedException
+    public void lessContentForNotExistResource() throws ExecutionException, InterruptedException
     {
         Response response = ClientBuilder.newClient()
                 .target(url("resources", "notexist.less"))
@@ -29,7 +29,7 @@ public class ResourcesServletLessTest extends AbstractComponentTest
     }
 
     @Test
-    public void contentForExistResource() throws ExecutionException, InterruptedException
+    public void lessContentForExistResource() throws ExecutionException, InterruptedException
     {
         Response response = ClientBuilder.newClient()
                 .target(url("resources", "less/basic.less"))

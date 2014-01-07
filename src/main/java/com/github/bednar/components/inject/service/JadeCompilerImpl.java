@@ -3,6 +3,8 @@ package com.github.bednar.components.inject.service;
 import javax.annotation.Nonnull;
 
 import com.github.bednar.base.utils.resource.FluentResource;
+import com.github.bednar.components.inject.service.resource.ResourceResponse;
+import org.apache.commons.lang.NotImplementedException;
 
 /**
  * @author Jakub Bednář (29/12/2013 18:16)
@@ -25,5 +27,19 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler implements Jade
         String script   = String.format("'' + jade.compile('%s', %s);", lessContent, options);
 
         return evaluateInline(lessPath, script).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
+    }
+
+    @Nonnull
+    @Override
+    public Boolean isAcceptedType(@Nonnull final String resourcePath)
+    {
+        throw new NotImplementedException();
+    }
+
+    @Nonnull
+    @Override
+    public ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final Boolean pretty)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -3,10 +3,12 @@ package com.github.bednar.components.inject.service;
 import javax.annotation.Nonnull;
 import java.net.URL;
 
+import com.github.bednar.components.inject.service.resource.ResourceProcessor;
+
 /**
  * @author Jakub Bednář (30/12/2013 17:09)
  */
-public interface CoffeeCompiler
+public interface CoffeeCompiler extends ResourceProcessor
 {
     /**
      * @param coffeePath path to Coffee file
