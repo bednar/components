@@ -2,7 +2,6 @@ package com.github.bednar.components.inject.service;
 
 import com.github.bednar.base.utils.resource.FluentResource;
 import com.github.bednar.components.AbstractComponentTest;
-import com.github.bednar.components.inject.service.resource.ResourceProcessor;
 import com.github.bednar.components.inject.service.resource.ResourceResponse;
 import org.junit.Assert;
 import org.junit.Test;
@@ -77,7 +76,7 @@ public class CoffeeCompilerTest extends AbstractComponentTest
     @Test
     public void acceptedType()
     {
-        ResourceProcessor processor = injector.getInstance(CoffeeCompiler.class);
+        CoffeeCompiler processor = injector.getInstance(CoffeeCompiler.class);
 
         Assert.assertTrue(processor.isAcceptedType("/coffee/basic.coffee"));
     }
@@ -85,7 +84,7 @@ public class CoffeeCompilerTest extends AbstractComponentTest
     @Test
     public void notAcceptedType()
     {
-        ResourceProcessor processor = injector.getInstance(CoffeeCompiler.class);
+        CoffeeCompiler processor = injector.getInstance(CoffeeCompiler.class);
 
         Assert.assertFalse(processor.isAcceptedType("/less/basic.less"));
     }
@@ -93,7 +92,7 @@ public class CoffeeCompilerTest extends AbstractComponentTest
     @Test
     public void processExistResource()
     {
-        ResourceProcessor processor = injector.getInstance(CoffeeCompiler.class);
+        CoffeeCompiler processor = injector.getInstance(CoffeeCompiler.class);
 
         ResourceResponse response = processor.process("/coffee/remote.coffee", CoffeeCompilerCfg.build());
 
@@ -109,7 +108,7 @@ public class CoffeeCompilerTest extends AbstractComponentTest
     @Test
     public void processNotExistResource()
     {
-        ResourceProcessor processor = injector.getInstance(CoffeeCompiler.class);
+        CoffeeCompiler processor = injector.getInstance(CoffeeCompiler.class);
 
         ResourceResponse response = processor.process("/coffee/notexist.coffee", CoffeeCompilerCfg.build());
 
