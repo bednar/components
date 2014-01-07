@@ -11,6 +11,7 @@ import java.util.Set;
 
 import com.github.bednar.base.http.AppBootstrap;
 import com.github.bednar.base.inject.Injector;
+import com.github.bednar.components.inject.service.CoffeeCompiler;
 import com.github.bednar.components.inject.service.LessCssCompiler;
 import com.github.bednar.components.inject.service.resource.ResourceProcessor;
 import com.github.bednar.components.inject.service.resource.ResourceResponse;
@@ -38,6 +39,9 @@ public class ResourcesServlet extends HttpServlet
 
         LessCssCompiler lessCompiler = injector.getInstance(LessCssCompiler.class);
         processors.add(lessCompiler);
+
+        CoffeeCompiler coffeeCompiler = injector.getInstance(CoffeeCompiler.class);
+        processors.add(coffeeCompiler);
 
         LOG.info("[initialized-processors][{}]", StringUtils.join(processors, ","));
     }
