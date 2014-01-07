@@ -71,7 +71,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
     {
         ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
 
-        ResourceResponse response = processor.process("/less/remote.less", true);
+        ResourceResponse response = processor.process("/less/remote.less", LessCssCompilerCfg.build());
 
         Assert.assertNotNull(response);
         Assert.assertEquals((Object) 31, response.getContentLength());
@@ -85,7 +85,7 @@ public class LessCssCompilerTest extends AbstractComponentTest
     {
         ResourceProcessor processor = injector.getInstance(LessCssCompiler.class);
 
-        ResourceResponse response = processor.process("/less/notexist.less", true);
+        ResourceResponse response = processor.process("/less/notexist.less", LessCssCompilerCfg.build());
 
         Assert.assertNotNull(response);
         Assert.assertEquals((Object) 44, response.getContentLength());
@@ -101,12 +101,12 @@ public class LessCssCompilerTest extends AbstractComponentTest
 
         LessCssCompilerImpl spy = Mockito.spy(compiler);
 
-        spy.process("/less/cache.less", false);
-        spy.process("/less/cache.less", false);
+        spy.process("/less/cache.less", LessCssCompilerCfg.build());
+        spy.process("/less/cache.less", LessCssCompilerCfg.build());
 
         try (FluentResource resource = FluentResource.byPath("/less/cache.less"))
         {
-            Mockito.verify(spy, Mockito.times(1)).compile(resource, false);
+            Mockito.verify(spy, Mockito.times(1)).compile(resource, LessCssCompilerCfg.build());
         }
     }
 }

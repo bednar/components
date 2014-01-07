@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Jakub Bednář (29/12/2013 18:02)
  */
-public abstract class AbstractJavascriptCompiler implements ResourceProcessor
+public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor<C>
 {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractJavascriptCompiler.class);
 
@@ -55,7 +55,7 @@ public abstract class AbstractJavascriptCompiler implements ResourceProcessor
     }
 
     @Nonnull
-    protected abstract String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress);
+    protected abstract String compile(@Nonnull final FluentResource resource, @Nonnull final C configuration);
 
     @Nonnull
     protected abstract String resourceRegexp();
@@ -66,18 +66,32 @@ public abstract class AbstractJavascriptCompiler implements ResourceProcessor
     @Nonnull
     public final String compile(@Nonnull final String path)
     {
-        try (FluentResource resource = FluentResource.byPath(path))
-        {
-            return compile(resource, true);
-        }
+        return compile(path, defaultCfg());
     }
 
     @Nonnull
     public final String compile(@Nonnull final URL url)
     {
+        return compile(url, defaultCfg());
+    }
+
+    @Nonnull
+    @Override
+    public String compile(@Nonnull final String path, @Nonnull final C configuration)
+    {
+        try (FluentResource resource = FluentResource.byPath(path))
+        {
+            return compile(resource, configuration);
+        }
+    }
+
+    @Nonnull
+    @Override
+    public String compile(@Nonnull final URL url, @Nonnull final C configuration)
+    {
         try (FluentResource resource = FluentResource.byURL(url))
         {
-            return compile(resource, true);
+            return compile(resource, configuration);
         }
     }
 
@@ -88,7 +102,7 @@ public abstract class AbstractJavascriptCompiler implements ResourceProcessor
     }
 
     @Nonnull
-    public ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final Boolean compress)
+    public ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final C configuration)
     {
         try (FluentResource resource = FluentResource.byPath(resourcePath))
         {
@@ -99,7 +113,7 @@ public abstract class AbstractJavascriptCompiler implements ResourceProcessor
 
             if (resource.exists())
             {
-                String content = compile(resource, compress);
+                String content = compile(resource, configuration);
 
                 ResourceResponse response = build(content);
 
@@ -109,7 +123,7 @@ public abstract class AbstractJavascriptCompiler implements ResourceProcessor
             }
             else
             {
-                String content = String.format("// Resource: '%s' not exist", resourcePath);
+                String content = notExistResourceContent(resourcePath);
 
                 return build(content);
             }
@@ -145,6 +159,12 @@ public abstract class AbstractJavascriptCompiler implements ResourceProcessor
     protected String normalizeScript(@Nonnull String script)
     {
         return script.replaceAll("\n", "\\\\u000A");
+    }
+
+    @Nonnull
+    protected String notExistResourceContent(@Nonnull final String resourcePath)
+    {
+        return String.format("// Resource: '%s' not exist", resourcePath);
     }
 
     @Nonnull

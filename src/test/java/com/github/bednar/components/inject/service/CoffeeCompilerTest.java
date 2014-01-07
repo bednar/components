@@ -95,7 +95,7 @@ public class CoffeeCompilerTest extends AbstractComponentTest
     {
         ResourceProcessor processor = injector.getInstance(CoffeeCompiler.class);
 
-        ResourceResponse response = processor.process("/coffee/remote.coffee", true);
+        ResourceResponse response = processor.process("/coffee/remote.coffee", CoffeeCompilerCfg.build());
 
         Assert.assertNotNull(response);
         Assert.assertEquals((Object) 73, response.getContentLength());
@@ -111,7 +111,7 @@ public class CoffeeCompilerTest extends AbstractComponentTest
     {
         ResourceProcessor processor = injector.getInstance(CoffeeCompiler.class);
 
-        ResourceResponse response = processor.process("/coffee/notexist.coffee", true);
+        ResourceResponse response = processor.process("/coffee/notexist.coffee", CoffeeCompilerCfg.build());
 
         Assert.assertNotNull(response);
         Assert.assertEquals((Object) 48, response.getContentLength());
@@ -127,9 +127,9 @@ public class CoffeeCompilerTest extends AbstractComponentTest
 
         CoffeeCompilerImpl spy = Mockito.spy(compiler);
 
-        spy.process("/coffee/cache.coffee", true);
-        spy.process("/coffee/cache.coffee", true);
+        spy.process("/coffee/cache.coffee", CoffeeCompilerCfg.build());
+        spy.process("/coffee/cache.coffee", CoffeeCompilerCfg.build());
 
-        Mockito.verify(spy, Mockito.times(1)).compile(Mockito.<FluentResource>any(), Mockito.anyBoolean());
+        Mockito.verify(spy, Mockito.times(1)).compile(Mockito.<FluentResource>any(), Mockito.<CoffeeCompilerCfg>any());
     }
 }

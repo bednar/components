@@ -7,7 +7,7 @@ import com.github.bednar.base.utils.resource.FluentResource;
 /**
  * @author Jakub Bednář (30/12/2013 17:10)
  */
-public class CoffeeCompilerImpl extends AbstractJavascriptCompiler implements CoffeeCompiler
+public class CoffeeCompilerImpl extends AbstractJavascriptCompiler<CoffeeCompilerCfg> implements CoffeeCompiler
 {
     public CoffeeCompilerImpl()
     {
@@ -30,7 +30,14 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler implements Co
 
     @Nonnull
     @Override
-    protected String compile(@Nonnull final FluentResource resource, @Nonnull final Boolean compress)
+    public CoffeeCompilerCfg defaultCfg()
+    {
+        return CoffeeCompilerCfg.build();
+    }
+
+    @Nonnull
+    @Override
+    protected String compile(@Nonnull final FluentResource resource, @Nonnull final CoffeeCompilerCfg cfg)
     {
         String coffeePath       = resource.path();
         String coffeeContent    = normalizeScript(resource.asString());

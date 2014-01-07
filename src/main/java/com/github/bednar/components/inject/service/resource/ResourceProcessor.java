@@ -6,7 +6,7 @@ import java.net.URL;
 /**
  * @author Jakub Bednář (05/01/2014 13:21)
  */
-public interface ResourceProcessor
+public interface ResourceProcessor<C>
 {
     /**
      * @param path path to Resource
@@ -24,6 +24,24 @@ public interface ResourceProcessor
     String compile(@Nonnull URL url);
 
     /**
+     * @param path          path to Resource
+     * @param configuration configuration of compiler
+     *
+     * @return compiled content of File with {@code path}
+     */
+    @Nonnull
+    String compile(@Nonnull String path, @Nonnull C configuration);
+
+    /**
+     * @param url           URL to Resource file
+     * @param configuration configuration of compiler
+     *
+     * @return compiled content of {@code url}
+     */
+    @Nonnull
+    String compile(@Nonnull URL url, @Nonnull C configuration);
+
+    /**
      * @param resourcePath path to resource
      *
      * @return {@link Boolean#TRUE} if processor accept resource with {@code resourcePath} else {@link Boolean#FALSE}
@@ -34,11 +52,17 @@ public interface ResourceProcessor
     /**
      * If resource with {@code resourcePath} not exist, than must return default 'NotExist' resource.
      *
-     * @param resourcePath path to resource
-     * @param compress     if {@link Boolean#TRUE} than result is compressed
+     * @param resourcePath  path to resource
+     * @param configuration configuration of compiler
      *
      * @return cached response for resource with {@code resourcePath}
      */
     @Nonnull
-    ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final Boolean compress);
+    ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final C configuration);
+
+    /**
+     * @return default configuration for compiler
+     */
+    @Nonnull
+    C defaultCfg();
 }

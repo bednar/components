@@ -7,7 +7,7 @@ import com.github.bednar.base.utils.resource.FluentResource;
 /**
  * @author Jakub Bednář (29/12/2013 11:32)
  */
-public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements LessCssCompiler
+public class LessCssCompilerImpl extends AbstractJavascriptCompiler<LessCssCompilerCfg> implements LessCssCompiler
 {
     public LessCssCompilerImpl()
     {
@@ -29,7 +29,15 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements L
     }
 
     @Nonnull
-    protected final String compile(@Nonnull final FluentResource lessResource, @Nonnull final Boolean compress)
+    @Override
+    public LessCssCompilerCfg defaultCfg()
+    {
+        return LessCssCompilerCfg.build();
+    }
+
+    @Nonnull
+    @Override
+    protected final String compile(@Nonnull final FluentResource lessResource, @Nonnull final LessCssCompilerCfg cfg)
     {
         String lessPath     = lessResource.path();
         String lessContent  = lessResource.asString().replaceAll("\\s", " ");
@@ -42,7 +50,7 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler implements L
                 "   result = less.toCSS({ compress: %s});" +
                 "});" +
 
-                "result;", lessPath, lessContent, compress);
+                "result;", lessPath, lessContent, cfg.getCompress());
 
         return evaluateInline(lessPath, script);
     }
