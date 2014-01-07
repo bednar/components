@@ -1,9 +1,11 @@
 package com.github.bednar.components.inject.service;
 
+import com.github.bednar.base.utils.resource.FluentResource;
 import com.github.bednar.components.AbstractComponentTest;
 import com.github.bednar.components.inject.service.resource.ResourceResponse;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.mozilla.javascript.JavaScriptException;
 
 /**
@@ -80,7 +82,11 @@ public class JadeCompilerTest extends AbstractComponentTest
         Assert.assertEquals((Object) 162, response.getContentLength());
         Assert.assertEquals("text/html;charset=UTF-8", response.getContentType());
         Assert.assertEquals("UTF-8", response.getCharacterEncoding());
-        Assert.assertEquals("p .for-remote-test{margin:10px}", new String(response.getContent()));
+        Assert.assertEquals(
+                        "function template(locals) {var buf = [];var jade_mixins = {};" +
+                        "buf.push(\"<h1 class=\"super-toolkit\">Hi Jakub... Super Toolkit!<p>NP</p></h1>\");" +
+                        ";return buf.join(\"\");}",
+                new String(response.getContent()));
     }
 
     @Test
@@ -95,6 +101,19 @@ public class JadeCompilerTest extends AbstractComponentTest
         Assert.assertEquals("text/html;charset=UTF-8", response.getContentType());
         Assert.assertEquals("UTF-8", response.getCharacterEncoding());
         Assert.assertEquals("<!-- Resource: '/jade/notexist.jade' not exist -->", new String(response.getContent()));
+    }
+
+    @Test
+    public void useCache()
+    {
+        JadeCompilerImpl compiler = (JadeCompilerImpl) injector.getInstance(JadeCompiler.class);
+
+        JadeCompilerImpl spy = Mockito.spy(compiler);
+
+        spy.process("/jade/cache.jade", JadeCompilerCfg.build());
+        spy.process("/jade/cache.jade", JadeCompilerCfg.build());
+
+        Mockito.verify(spy, Mockito.times(1)).compile(Mockito.<FluentResource>any(), Mockito.<JadeCompilerCfg>any());
     }
 }
 
