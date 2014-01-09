@@ -156,6 +156,35 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     }
 
     @Nonnull
+    protected String evaluateInline(@Nonnull final String name, @Nonnull final String script, @Nonnull final String content)
+    {
+        StopWatch watch = new StopWatch();
+        watch.start();
+
+        LOG.info("[evaluating...][{}]", name);
+
+        try
+        {
+            Context context = Context.enter();
+            context.setLanguageVersion(Context.VERSION_1_8);
+
+            Scriptable currentScope = context.newObject(scope);
+            currentScope.setParentScope(scope);
+            currentScope.put("content", currentScope, content);
+
+            return context.evaluateString(currentScope, script, "evaluateInline", 0, null).toString();
+        }
+        finally
+        {
+            watch.stop();
+
+            LOG.info("[evaluated][{}][{}]", name, watch.toString());
+
+            Context.exit();
+        }
+    }
+
+    @Nonnull
     protected String normalizeScript(@Nonnull String script)
     {
         return script.replaceAll("\n", "\\\\u000A");

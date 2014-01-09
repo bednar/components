@@ -11,7 +11,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
 {
     public JadeCompilerImpl()
     {
-        super("/lib/jade/jade.min.js");
+        super("/lib/trimLeft.js", "/lib/jade/jade.min.js");
     }
 
     @Nonnull
@@ -39,22 +39,22 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
     @Override
     protected String compile(@Nonnull final FluentResource resource, @Nonnull final JadeCompilerCfg cfg)
     {
-        String lessPath     = resource.path();
-        String lessContent  = normalizeScript(resource.asString());
+        String jadePath     = resource.path();
+        String jadeContent  = resource.asString();
 
-        String options  = String.format("{filename: '%s', pretty: %s, client: true}", lessPath, cfg.getPretty());
+        String options  = String.format("{filename: '%s', pretty: %s, client: true}", jadePath, cfg.getPretty());
 
         if (cfg.getAsHTML())
         {
-            String script = String.format("'' + jade.render('%s', %s);", lessContent, options);
+            String script = String.format("jade.render(content, %s);", options);
 
-            return evaluateInline(lessPath, script);
+            return evaluateInline(jadePath, script, jadeContent);
         }
         else
         {
-            String script = String.format("'' + jade.compile('%s', %s);", lessContent, options);
+            String script = String.format("'' + jade.compile(content, %s);", options);
 
-            return evaluateInline(lessPath, script).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
+            return evaluateInline(jadePath, script, jadeContent).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
         }
     }
 }

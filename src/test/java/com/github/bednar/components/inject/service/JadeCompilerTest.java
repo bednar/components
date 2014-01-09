@@ -73,6 +73,44 @@ public class JadeCompilerTest extends AbstractComponentTest
     }
 
     @Test
+    public void compileComplexTemplateAsHTML()
+    {
+        JadeCompiler compiler = injector.getInstance(JadeCompiler.class);
+
+        JadeCompilerCfg configuration = JadeCompilerCfg
+                .build()
+                .setRenderAsHTML()
+                .setRenderPretty();
+
+        String compiled = compiler.compile("/jade/complex.jade", configuration);
+
+        Assert.assertEquals(
+                "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "  <head>\n" +
+                "    <title></title>\n" +
+                "    <script type=\"text/javascript\">\n" +
+                "      if (foo) {\n" +
+                "         bar(1 + 5)\n" +
+                "      }\n" +
+                "    </script>\n" +
+                "  </head>\n" +
+                "  <body>\n" +
+                "    <h1>Jade - node template engine</h1>\n" +
+                "    <div id=\"container\" class=\"col\">\n" +
+                "      <p>Get on it!</p>\n" +
+                "      <p>\n" +
+                "        Jade is a terse and simple\n" +
+                "        templating language with a\n" +
+                "        strong focus on performance\n" +
+                "        and powerful features.\n" +
+                "      </p>\n" +
+                "    </div>\n" +
+                "  </body>\n" +
+                "</html>", compiled);
+    }
+
+    @Test
     public void acceptedType()
     {
         JadeCompiler processor = injector.getInstance(JadeCompiler.class);
