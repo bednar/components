@@ -27,6 +27,7 @@ public abstract class AbstractComponentTest
     {
         embeddedJetty = new EmbeddedJetty()
                 .webFragments(true)
+                .resourceBase("")
                 .start();
 
         AppContext.initInjector(embeddedJetty.getServletContext());
