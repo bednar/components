@@ -7,8 +7,6 @@ import javax.annotation.Nonnull;
  */
 public final class LessCssCompilerCfg
 {
-    private Boolean compress = true;
-
     private LessCssCompilerCfg()
     {
     }
@@ -22,6 +20,6 @@ public final class LessCssCompilerCfg
     @Nonnull
     public Boolean getCompress()
     {
-        return compress;
+        return true;
     }
 }
