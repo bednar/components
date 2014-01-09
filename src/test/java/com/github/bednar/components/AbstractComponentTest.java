@@ -28,6 +28,7 @@ public abstract class AbstractComponentTest
         embeddedJetty = new EmbeddedJetty()
                 .webFragments(true)
                 .resourceBase("")
+                .initParameter("org.eclipse.jetty.servlet.Default.welcomeServlets", "true")
                 .start();
 
         AppContext.initInjector(embeddedJetty.getServletContext());

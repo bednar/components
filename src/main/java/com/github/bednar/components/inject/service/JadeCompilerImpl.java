@@ -26,7 +26,14 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
     @Override
     protected String contentType(@Nonnull final JadeCompilerCfg cfg)
     {
-        return "application/javascript";
+        if (cfg.getAsHTML())
+        {
+            return "text/html";
+        }
+        else
+        {
+            return "application/javascript";
+        }
     }
 
     @Nonnull
