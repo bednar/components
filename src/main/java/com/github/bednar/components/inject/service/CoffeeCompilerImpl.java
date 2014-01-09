@@ -40,10 +40,10 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler<CoffeeCompile
     protected String compile(@Nonnull final FluentResource resource, @Nonnull final CoffeeCompilerCfg cfg)
     {
         String coffeePath       = resource.path();
-        String coffeeContent    = normalizeScript(resource.asString());
+        String coffeeContent    = resource.asString();
 
-        String script = String.format("CoffeeScript.compile('%s', {bare: false});", coffeeContent);
+        String script = String.format("CoffeeScript.compile(content, {bare: false});");
 
-        return evaluateInline(coffeePath, script);
+        return evaluateInline(coffeePath, script, coffeeContent);
     }
 }
