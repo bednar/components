@@ -40,18 +40,18 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler<LessCssCompi
     protected final String compile(@Nonnull final FluentResource lessResource, @Nonnull final LessCssCompilerCfg cfg)
     {
         String lessPath     = lessResource.path();
-        String lessContent  = lessResource.asString().replaceAll("\\s", " ");
+        String lessContent  = lessResource.asString();
 
         String script = String.format(
                 "var result;" +
 
-                "new less.Parser({filename: '%s'}).parse('%s', function (error, less)" +
+                "new less.Parser({filename: '%s'}).parse(content, function (error, less)" +
                 "{" +
                 "   result = less.toCSS({ compress: %s});" +
                 "});" +
 
-                "result;", lessPath, lessContent, cfg.getCompress());
+                "result;", lessPath, cfg.getCompress());
 
-        return evaluateInline(lessPath, script);
+        return evaluateInline(lessPath, script, lessContent);
     }
 }

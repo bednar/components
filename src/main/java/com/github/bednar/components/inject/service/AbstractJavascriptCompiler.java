@@ -131,31 +131,6 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     }
 
     @Nonnull
-    protected String evaluateInline(@Nonnull final String name, @Nonnull final String script)
-    {
-        StopWatch watch = new StopWatch();
-        watch.start();
-
-        LOG.info("[evaluating...][{}]", name);
-
-        try
-        {
-            Context context = Context.enter();
-            context.setLanguageVersion(Context.VERSION_1_8);
-
-            return context.evaluateString(scope, script, "compile-inline.js", 1, null).toString();
-        }
-        finally
-        {
-            watch.stop();
-
-            LOG.info("[evaluated][{}][{}]", name, watch.toString());
-
-            Context.exit();
-        }
-    }
-
-    @Nonnull
     protected String evaluateInline(@Nonnull final String name, @Nonnull final String script, @Nonnull final String content)
     {
         StopWatch watch = new StopWatch();
@@ -182,12 +157,6 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
 
             Context.exit();
         }
-    }
-
-    @Nonnull
-    protected String normalizeScript(@Nonnull String script)
-    {
-        return script.replaceAll("\n", "\\\\u000A");
     }
 
     @Nonnull
