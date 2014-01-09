@@ -75,7 +75,7 @@ public class ResourcesServlet extends HttpServlet
         if (processor != null)
         {
             //noinspection unchecked
-            ResourceResponse content = processor.process(requestURI, processor.defaultCfg());
+            ResourceResponse content = processor.process(requestURI, processor.defaultCfg(req.getParameterMap()));
 
             IOUtils.write(content.getContent(), resp.getOutputStream());
 
