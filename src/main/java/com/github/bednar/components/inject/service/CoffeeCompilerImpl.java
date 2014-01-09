@@ -24,7 +24,7 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler<CoffeeCompile
 
     @Nonnull
     @Override
-    protected String contentType()
+    protected String contentType(@Nonnull final CoffeeCompilerCfg cfg)
     {
         return "application/javascript";
     }

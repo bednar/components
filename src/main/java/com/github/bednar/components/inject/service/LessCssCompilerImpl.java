@@ -24,7 +24,7 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler<LessCssCompi
 
     @Nonnull
     @Override
-    protected String contentType()
+    protected String contentType(@Nonnull final LessCssCompilerCfg cfg)
     {
         return "text/css";
     }

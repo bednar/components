@@ -62,7 +62,7 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     protected abstract String resourceRegexp();
 
     @Nonnull
-    protected abstract String contentType();
+    protected abstract String contentType(@Nonnull final C cfg);
 
     @Nonnull
     @Override
@@ -110,7 +110,7 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     }
 
     @Nonnull
-    public ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final C configuration)
+    public ResourceResponse process(@Nonnull final String resourcePath, @Nonnull final C cfg)
     {
         try (FluentResource resource = FluentResource.byPath(resourcePath))
         {
@@ -121,9 +121,9 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
 
             if (resource.exists())
             {
-                String content = compile(resource, configuration);
+                String content = compile(resource, cfg);
 
-                ResourceResponse response = build(content);
+                ResourceResponse response = build(content, cfg);
 
                 cache.put(resource.path(), response);
 
@@ -133,7 +133,7 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
             {
                 String content = notExistResourceContent(resourcePath);
 
-                return build(content);
+                return build(content, cfg);
             }
         }
     }
@@ -174,9 +174,9 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     }
 
     @Nonnull
-    private ResourceResponse build(@Nonnull final String content)
+    private ResourceResponse build(@Nonnull final String content, final C cfg)
     {
-        return new GenericResourceResponse(content.getBytes(), contentType());
+        return new GenericResourceResponse(content.getBytes(), contentType(cfg));
     }
 
     private void load(@Nonnull final String scriptPath)

@@ -24,7 +24,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
 
     @Nonnull
     @Override
-    protected String contentType()
+    protected String contentType(@Nonnull final JadeCompilerCfg cfg)
     {
         return "application/javascript";
     }
@@ -33,7 +33,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
     @Override
     public JadeCompilerCfg defaultCfg(@Nonnull final Map<String, String[]> parameters)
     {
-        return JadeCompilerCfg.build();
+        return JadeCompilerCfg.build(parameters);
     }
 
     @Nonnull
