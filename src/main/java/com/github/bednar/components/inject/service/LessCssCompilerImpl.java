@@ -1,6 +1,7 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 import com.github.bednar.base.utils.resource.FluentResource;
 
@@ -30,7 +31,7 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler<LessCssCompi
 
     @Nonnull
     @Override
-    public LessCssCompilerCfg defaultCfg()
+    public LessCssCompilerCfg defaultCfg(@Nonnull final Map<String, String[]> parameters)
     {
         return LessCssCompilerCfg.build();
     }

@@ -2,6 +2,7 @@ package com.github.bednar.components.inject.service.resource;
 
 import javax.annotation.Nonnull;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * @author Jakub Bednář (05/01/2014 13:21)
@@ -65,4 +66,10 @@ public interface ResourceProcessor<C>
      */
     @Nonnull
     C defaultCfg();
+
+    /**
+     * @return configuration parsed from {@code parameters}
+     */
+    @Nonnull
+    C defaultCfg(@Nonnull final Map<String,String[]> parameters);
 }

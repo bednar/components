@@ -1,6 +1,7 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 import com.github.bednar.base.utils.resource.FluentResource;
 
@@ -30,7 +31,7 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler<CoffeeCompile
 
     @Nonnull
     @Override
-    public CoffeeCompilerCfg defaultCfg()
+    public CoffeeCompilerCfg defaultCfg(@Nonnull final Map<String, String[]> parameters)
     {
         return CoffeeCompilerCfg.build();
     }

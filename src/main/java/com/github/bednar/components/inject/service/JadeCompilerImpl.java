@@ -1,6 +1,7 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 import com.github.bednar.base.utils.resource.FluentResource;
 
@@ -30,7 +31,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
 
     @Nonnull
     @Override
-    public JadeCompilerCfg defaultCfg()
+    public JadeCompilerCfg defaultCfg(@Nonnull final Map<String, String[]> parameters)
     {
         return JadeCompilerCfg.build();
     }

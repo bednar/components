@@ -12,6 +12,7 @@ import com.github.bednar.base.utils.throwable.FluentException;
 import com.github.bednar.components.inject.service.resource.GenericResourceResponse;
 import com.github.bednar.components.inject.service.resource.ResourceProcessor;
 import com.github.bednar.components.inject.service.resource.ResourceResponse;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang3.time.StopWatch;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -62,6 +63,13 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
 
     @Nonnull
     protected abstract String contentType();
+
+    @Nonnull
+    @Override
+    public C defaultCfg()
+    {
+        return defaultCfg(Maps.<String, String[]>newHashMap());
+    }
 
     @Nonnull
     public final String compile(@Nonnull final String path)
