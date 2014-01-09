@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
  */
 public final class JadeCompilerCfg
 {
+    private Boolean asHTML = false;
     private Boolean pretty = false;
 
     private JadeCompilerCfg()
@@ -20,8 +21,30 @@ public final class JadeCompilerCfg
     }
 
     @Nonnull
+    public JadeCompilerCfg setRenderPretty()
+    {
+        this.pretty = true;
+
+        return this;
+    }
+
+    @Nonnull
+    public JadeCompilerCfg setRenderAsHTML()
+    {
+        this.asHTML = true;
+
+        return this;
+    }
+
+    @Nonnull
     public Boolean getPretty()
     {
         return pretty;
+    }
+
+    @Nonnull
+    public Boolean getAsHTML()
+    {
+        return asHTML;
     }
 }

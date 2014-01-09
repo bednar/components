@@ -35,6 +35,23 @@ public class JadeCompilerTest extends AbstractComponentTest
     }
 
     @Test
+    public void compileAsHTML()
+    {
+        JadeCompiler compiler = injector.getInstance(JadeCompiler.class);
+
+        JadeCompilerCfg configuration = JadeCompilerCfg
+                .build()
+                .setRenderAsHTML()
+                .setRenderPretty();
+
+        String compiled = compiler.compile("/jade/basic.jade", configuration);
+
+        Assert.assertEquals(
+                "\n<h1>Jade - node template engine</h1>\n" +
+                "<p class=\"class\">Get on it!<span class=\"hello\">Bye Bye</span></p>", compiled);
+    }
+
+    @Test
     public void compileByURL()
     {
         JadeCompiler compiler = injector.getInstance(JadeCompiler.class);

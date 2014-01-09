@@ -43,8 +43,18 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
         String lessContent  = normalizeScript(resource.asString());
 
         String options  = String.format("{filename: '%s', pretty: %s, client: true}", lessPath, cfg.getPretty());
-        String script   = String.format("'' + jade.compile('%s', %s);", lessContent, options);
 
-        return evaluateInline(lessPath, script).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
+        if (cfg.getAsHTML())
+        {
+            String script = String.format("'' + jade.render('%s', %s);", lessContent, options);
+
+            return evaluateInline(lessPath, script);
+        }
+        else
+        {
+            String script = String.format("'' + jade.compile('%s', %s);", lessContent, options);
+
+            return evaluateInline(lessPath, script).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
+        }
     }
 }
