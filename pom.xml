@@ -104,75 +104,36 @@
             </plugin>
 
             <plugin>
-                <groupId>com.github.iron9light</groupId>
-                <artifactId>coffeescript-maven-plugin</artifactId>
-                <configuration>
-                    <srcDir>${project.basedir}/src/main/resources/META-INF/resources/lib</srcDir>
-                    <outputDir>${project.basedir}/src/main/resources/META-INF/resources/lib</outputDir>
-                    <bare>false</bare>
-                    <sourceMap>false</sourceMap>
-                    <modifiedOnly>true</modifiedOnly>
-                    <allowedDelete>true</allowedDelete>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>coffeescript</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>com.samaxes.maven</groupId>
-                <artifactId>minify-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-minify</id>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <charset>${default.encoding}</charset>
-                            <webappSourceDir>${project.basedir}/src/main/resources/META-INF/resources/</webappSourceDir>
-                            <webappTargetDir>${project.basedir}/src/main/resources/META-INF/resources/</webappTargetDir>
-                            <jsSourceDir>lib</jsSourceDir>
-                            <jsSourceIncludes>
-                                <jsSourceInclude>**/*.js</jsSourceInclude>
-                            </jsSourceIncludes>
-                            <skipMerge>true</skipMerge>
-                        </configuration>
-                        <goals>
-                            <goal>minify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${project.basedir}/src/main/resources/META-INF/resources/lib</directory>
-                            <includes>
-                                <include>**/*.js</include>
-                            </includes>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
                         <exclude>**/PLACEHOLDER</exclude>
-                        <exclude>**/*.coffee</exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/META-INF/resources/lib</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.outputDirectory}/lib</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- Test -->
@@ -188,13 +149,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jsSrcDir>${project.basedir}/src/main/resources/META-INF/resources/</jsSrcDir>
+                    <jsSrcDir>${project.basedir}/src/main/resources/</jsSrcDir>
                     <jsTestSrcDir>${project.basedir}/src/test/specs</jsTestSrcDir>
                     <keepServerAlive>true</keepServerAlive>
-                    <sourceExcludes>
-                        <exclude>**/*.coffee</exclude>
-                        <exclude>**/*.min.js</exclude>
-                    </sourceExcludes>
                 </configuration>
             </plugin>
 
