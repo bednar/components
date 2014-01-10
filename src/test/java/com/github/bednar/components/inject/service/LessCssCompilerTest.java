@@ -41,6 +41,20 @@ public class LessCssCompilerTest extends AbstractComponentTest
         Assert.assertEquals(".class{width:2}", compiled);
     }
 
+    @Test
+    public void compileWithImport()
+    {
+        LessCssCompiler compiler = injector.getInstance(LessCssCompiler.class);
+
+        String compiled = compiler.compile("/less/withimport.less");
+
+        Assert.assertEquals(
+                "div p{padding-top:5px;padding-right:10px;padding-bottom:15px;padding-left:20px;" +
+                "color:#f00;background-color:#f00}" +
+                "div p .show{padding-top:3px;padding-right:6px;padding-bottom:9px;padding-left:12px;" +
+                "color:#ffc0cb;background-color:#ffc0cb}", compiled);
+    }
+
     @Test(expected = JavaScriptException.class)
     public void compileError()
     {
@@ -103,9 +117,6 @@ public class LessCssCompilerTest extends AbstractComponentTest
         spy.process("/less/cache.less", LessCssCompilerCfg.build());
         spy.process("/less/cache.less", LessCssCompilerCfg.build());
 
-        try (FluentResource resource = FluentResource.byPath("/less/cache.less"))
-        {
-            Mockito.verify(spy, Mockito.times(1)).compile(resource, LessCssCompilerCfg.build());
-        }
+        Mockito.verify(spy, Mockito.times(1)).compile(Mockito.<FluentResource>any(), Mockito.<LessCssCompilerCfg>any());
     }
 }

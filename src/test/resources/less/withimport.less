@@ -1,0 +1,17 @@
+@import "sub/some.less";
+@import "sub/another.less";
+
+div
+{
+    p
+    {
+        .superPadding();
+        .colorize(red);
+
+        .show
+        {
+            .superPadding(3px);
+            .colorize();
+        }
+    }
+}
