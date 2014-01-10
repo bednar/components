@@ -28,4 +28,17 @@ public class ResourcesServletTest extends AbstractComponentTest
         Assert.assertEquals("text/html;charset=UTF-8", response.getMediaType().toString());
         Assert.assertEquals("<!DOCTYPE html><html lang=\"en\"><head><title>Index page</title></head></html>", response.readEntity(String.class));
     }
+
+    @Test
+    public void notSupportedResource() throws ExecutionException, InterruptedException
+    {
+        Response response = ClientBuilder.newClient()
+                .target(url("image.jpg"))
+                .request("image/jpeg")
+                .buildGet()
+                .submit()
+                .get();
+
+        Assert.assertEquals(404, response.getStatus());
+    }
 }
