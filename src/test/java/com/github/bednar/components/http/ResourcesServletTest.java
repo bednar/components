@@ -18,7 +18,6 @@ public class ResourcesServletTest extends AbstractComponentTest
     {
         Response response = ClientBuilder.newClient()
                 .target(url())
-                .queryParam("asHTML", "true")
                 .request("text/html")
                 .buildGet()
                 .submit()
