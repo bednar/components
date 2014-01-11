@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.cache.Cache;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import com.github.bednar.base.utils.cache.FluentCache;
@@ -12,7 +13,9 @@ import com.github.bednar.base.utils.throwable.FluentException;
 import com.github.bednar.components.inject.service.resource.GenericResourceResponse;
 import com.github.bednar.components.inject.service.resource.ResourceProcessor;
 import com.github.bednar.components.inject.service.resource.ResourceResponse;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -114,9 +117,11 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     {
         try (FluentResource resource = FluentResource.byPath(resourcePath))
         {
-            if (cache.containsKey(resource.path()))
+            String resourceKey = cacheKey(resource, cfg);
+
+            if (cache.containsKey(resourceKey))
             {
-                return cache.get(resource.path());
+                return cache.get(resourceKey);
             }
 
             if (resource.exists())
@@ -125,7 +130,7 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
 
                 ResourceResponse response = build(content, cfg);
 
-                cache.put(resource.path(), response);
+                cache.put(resourceKey, response);
 
                 return response;
             }
@@ -171,6 +176,20 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     protected String notExistResourceContent(@Nonnull final String resourcePath)
     {
         return String.format("// Resource: '%s' not exist", resourcePath);
+    }
+
+    @Nonnull
+    protected List<String> cacheKeyParameters(@Nonnull final C cfg)
+    {
+        return Lists.newArrayList();
+    }
+
+    @Nonnull
+    private String cacheKey(@Nonnull final FluentResource resource, @Nonnull final C cfg)
+    {
+        String parameters = StringUtils.join(cacheKeyParameters(cfg), "-");
+
+        return resource.path() + parameters;
     }
 
     @Nonnull

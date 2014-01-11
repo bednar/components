@@ -1,10 +1,12 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Jakub Bednář (07/01/2014 20:59)
@@ -47,6 +49,14 @@ public final class JadeCompilerCfg
     }
 
     @Nonnull
+    public JadeCompilerCfg setAssignTo(@Nonnull final String assignTo)
+    {
+        parameters.put("assignTo", new String[]{assignTo});
+
+        return this;
+    }
+
+    @Nonnull
     public Boolean getPretty()
     {
         return getBool("pretty", false);
@@ -56,6 +66,20 @@ public final class JadeCompilerCfg
     public Boolean getAsHTML()
     {
         return getBool("asHTML", false);
+    }
+
+    @Nullable
+    public String getAssignTo()
+    {
+        return getString("assignTo");
+    }
+
+    @Nonnull
+    public Boolean hasAssignTo()
+    {
+        String assignTo = getAssignTo();
+
+        return StringUtils.isNotBlank(assignTo);
     }
 
     @Nonnull
@@ -69,5 +93,18 @@ public final class JadeCompilerCfg
         }
 
         return BooleanUtils.toBoolean(values[0]);
+    }
+
+    @Nullable
+    private String getString(@Nonnull final String key)
+    {
+        String[] values = parameters.get(key);
+
+        if (values == null || values.length != 1)
+        {
+            return null;
+        }
+
+        return values[0];
     }
 }

@@ -159,6 +159,29 @@ public class JadeCompilerTest extends AbstractComponentTest
     }
 
     @Test
+    public void assignToVariable()
+    {
+        JadeCompiler processor = injector.getInstance(JadeCompiler.class);
+
+        //check cached templates is assigned
+        processor.process("/jade/assignTo.jade", JadeCompilerCfg.build());
+
+        JadeCompilerCfg configuration = JadeCompilerCfg
+                .build()
+                .setAssignTo("window.templates");
+
+        ResourceResponse response = processor.process("/jade/assignTo.jade", configuration);
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals((Object) 154, response.getContentLength());
+        Assert.assertEquals("application/javascript;charset=UTF-8", response.getContentType());
+        Assert.assertEquals("UTF-8", response.getCharacterEncoding());
+        Assert.assertEquals("window.templates = function template(locals) {var buf = [];" +
+                "var jade_mixins = {};buf.push(\"<h1>Template for assignTo testing</h1>\");;" +
+                "return buf.join(\"\");};", new String(response.getContent()));
+    }
+
+    @Test
     public void useCache()
     {
         JadeCompilerImpl compiler = (JadeCompilerImpl) injector.getInstance(JadeCompiler.class);

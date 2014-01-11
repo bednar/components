@@ -1,9 +1,11 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.Map;
 
 import com.github.bednar.base.utils.resource.FluentResource;
+import com.google.common.collect.Lists;
 
 /**
  * @author Jakub Bednář (29/12/2013 18:16)
@@ -58,11 +60,37 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
 
             return evaluateInline(jadePath, script, jadeContent);
         }
+        else if (cfg.hasAssignTo())
+        {
+            String compiled = evaluateRuntimeScript(jadePath, jadeContent, options);
+
+            return String.format("%s = %s;", cfg.getAssignTo(), compiled);
+        }
         else
         {
-            String script = String.format("'' + jade.compile(content, %s);", options);
-
-            return evaluateInline(jadePath, script, jadeContent).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
+            return evaluateRuntimeScript(jadePath, jadeContent, options);
         }
+    }
+
+    @Nonnull
+    @Override
+    protected List<String> cacheKeyParameters(@Nonnull final JadeCompilerCfg cfg)
+    {
+        if (cfg.hasAssignTo())
+        {
+            return Lists.newArrayList(cfg.getAssignTo());
+        }
+
+        return super.cacheKeyParameters(cfg);
+    }
+
+    @Nonnull
+    private String evaluateRuntimeScript(@Nonnull final String jadePath,
+                                         @Nonnull final String jadeContent,
+                                         @Nonnull final String options)
+    {
+        String script = String.format("'' + jade.compile(content, %s);", options);
+
+        return evaluateInline(jadePath, script, jadeContent).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
     }
 }
