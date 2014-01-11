@@ -78,7 +78,13 @@
     <pre data-type="html"><code>&lt;script type="text/javascript" src="resources/jade/form.jade"&gt;&lt;/script&gt;</code></pre>
 
     <p>For rendering <a href="http://jade-lang.com">Jade Template</a> as HTML page use parameter <em>asHTML=true</em>.</p>
-    <pre data-type="html"><code>&lt;a href="http://localhost/resources/presentation/index.jade?asHTML=true"&gt;Homepage&lt;/a&gt;</code></pre>
+    <pre data-type="html"><code>&lt;a href="http://localhost/resources/presentation/index.jade?asHTML=true"&gt;Presentation Page&lt;/a&gt;</code></pre>
+
+    <p>For assign template runtime script to variable use <em>assignTo=variable_name</em>.</p>
+    <pre data-type="html"><code>&lt;script type="text/javascript" src="resources/jade/form.jade?assignTo=window.templates"&gt;&lt;/script&gt;</code></pre>
+
+    <p>For compile multiple templates use <em>multiple=regex</em>.</p>
+    <pre data-type="html"><code>&lt;script type="text/javascript" src="resources/jade/form.jade?assignTo=window.templates;multiple=/components/.*\\.jade"&gt;&lt;/script&gt;</code></pre>
 
 </article>
 
