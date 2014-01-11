@@ -3,9 +3,11 @@ package com.github.bednar.components.inject.service;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.github.bednar.base.utils.collection.ListAutoCloseable;
+import com.github.bednar.base.utils.lang.Patterns;
 import com.github.bednar.base.utils.resource.FluentResource;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -71,7 +73,10 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
         {
             String compiled = evaluateRuntimeScript(jadePath, jadeContent, options);
 
-            return String.format("%s = %s;", cfg.getAssignTo(), compiled);
+            Matcher matcher = Patterns.FILE_NAME_EXTENSION.matcher(jadePath);
+            matcher.find();
+
+            return String.format("%s.%s = %s;", cfg.getAssignTo(), matcher.group(2), compiled);
         }
         else
         {

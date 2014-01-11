@@ -173,10 +173,10 @@ public class JadeCompilerTest extends AbstractComponentTest
         ResourceResponse response = processor.process("/jade/assignTo.jade", configuration);
 
         Assert.assertNotNull(response);
-        Assert.assertEquals((Object) 154, response.getContentLength());
+        Assert.assertEquals((Object) 163, response.getContentLength());
         Assert.assertEquals("application/javascript;charset=UTF-8", response.getContentType());
         Assert.assertEquals("UTF-8", response.getCharacterEncoding());
-        Assert.assertEquals("window.templates = function template(locals) {var buf = [];" +
+        Assert.assertEquals("window.templates.assignTo = function template(locals) {var buf = [];" +
                 "var jade_mixins = {};buf.push(\"<h1>Template for assignTo testing</h1>\");;" +
                 "return buf.join(\"\");};", new String(response.getContent()));
     }
@@ -194,15 +194,15 @@ public class JadeCompilerTest extends AbstractComponentTest
         ResourceResponse response = processor.process("/jade/assignTo.jade", configuration);
 
         Assert.assertNotNull(response);
-        Assert.assertEquals((Object) 312, response.getContentLength());
+        Assert.assertEquals((Object) 332, response.getContentLength());
         Assert.assertEquals("application/javascript;charset=UTF-8", response.getContentType());
         Assert.assertEquals("UTF-8", response.getCharacterEncoding());
         Assert.assertEquals(
-                "window.templates = function template(locals) {var buf = [];" +
+                "window.templates.template2 = function template(locals) {var buf = [];" +
                 "var jade_mixins = {};buf.push(\"<p>Template 2 for multiple testing</p>\");" +
                 ";return buf.join(\"\");};\n" +
                 "\n" +
-                "window.templates = function template(locals) {var buf = [];var jade_mixins = {};" +
+                "window.templates.template1 = function template(locals) {var buf = [];var jade_mixins = {};" +
                 "buf.push(\"<h1>Template 1 for multiple testing</h1>\");;return buf.join(\"\");};",
                 new String(response.getContent()));
     }
