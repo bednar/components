@@ -182,6 +182,32 @@ public class JadeCompilerTest extends AbstractComponentTest
     }
 
     @Test
+    public void compileMultiple()
+    {
+        JadeCompiler processor = injector.getInstance(JadeCompiler.class);
+
+        JadeCompilerCfg configuration = JadeCompilerCfg
+                .build()
+                .setAssignTo("window.templates")
+                .setMultiple("/multiple/.*\\.jade");
+
+        ResourceResponse response = processor.process("/jade/assignTo.jade", configuration);
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals((Object) 312, response.getContentLength());
+        Assert.assertEquals("application/javascript;charset=UTF-8", response.getContentType());
+        Assert.assertEquals("UTF-8", response.getCharacterEncoding());
+        Assert.assertEquals(
+                "window.templates = function template(locals) {var buf = [];" +
+                "var jade_mixins = {};buf.push(\"<p>Template 2 for multiple testing</p>\");" +
+                ";return buf.join(\"\");};\n" +
+                "\n" +
+                "window.templates = function template(locals) {var buf = [];var jade_mixins = {};" +
+                "buf.push(\"<h1>Template 1 for multiple testing</h1>\");;return buf.join(\"\");};",
+                new String(response.getContent()));
+    }
+
+    @Test
     public void useCache()
     {
         JadeCompilerImpl compiler = (JadeCompilerImpl) injector.getInstance(JadeCompiler.class);

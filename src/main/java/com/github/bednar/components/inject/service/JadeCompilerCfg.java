@@ -49,9 +49,17 @@ public final class JadeCompilerCfg
     }
 
     @Nonnull
-    public JadeCompilerCfg setAssignTo(@Nonnull final String assignTo)
+    public JadeCompilerCfg setAssignTo(@Nullable final String assignTo)
     {
         parameters.put("assignTo", new String[]{assignTo});
+
+        return this;
+    }
+
+    @Nonnull
+    public JadeCompilerCfg setMultiple(@Nullable final String multiple)
+    {
+        parameters.put("multiple", new String[]{multiple});
 
         return this;
     }
@@ -80,6 +88,20 @@ public final class JadeCompilerCfg
         String assignTo = getAssignTo();
 
         return StringUtils.isNotBlank(assignTo);
+    }
+
+    @Nullable
+    public String getMultiple()
+    {
+        return getString("multiple");
+    }
+
+    @Nonnull
+    public Boolean hasMultiple()
+    {
+        String multiple = getMultiple();
+
+        return StringUtils.isNotBlank(multiple);
     }
 
     @Nonnull

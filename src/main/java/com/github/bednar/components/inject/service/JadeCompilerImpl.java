@@ -3,9 +3,12 @@ package com.github.bednar.components.inject.service;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
+import com.github.bednar.base.utils.collection.ListAutoCloseable;
 import com.github.bednar.base.utils.resource.FluentResource;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Jakub Bednář (29/12/2013 18:16)
@@ -60,6 +63,10 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
 
             return evaluateInline(jadePath, script, jadeContent);
         }
+        else if (cfg.hasMultiple())
+        {
+            return evaluateMultiple(cfg);
+        }
         else if (cfg.hasAssignTo())
         {
             String compiled = evaluateRuntimeScript(jadePath, jadeContent, options);
@@ -76,12 +83,26 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
     @Override
     protected List<String> cacheKeyParameters(@Nonnull final JadeCompilerCfg cfg)
     {
+        List<String> results = Lists.newArrayList();
+
         if (cfg.hasAssignTo())
         {
-            return Lists.newArrayList(cfg.getAssignTo());
+            results.add(cfg.getAssignTo());
         }
 
-        return super.cacheKeyParameters(cfg);
+        if (cfg.hasMultiple())
+        {
+            results.add(cfg.getMultiple());
+        }
+
+        return results;
+    }
+
+    @Nonnull
+    @Override
+    protected Boolean existResource(@Nonnull final FluentResource resource, @Nonnull final JadeCompilerCfg cfg)
+    {
+        return cfg.hasMultiple() || resource.exists();
     }
 
     @Nonnull
@@ -92,5 +113,25 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
         String script = String.format("'' + jade.compile(content, %s);", options);
 
         return evaluateInline(jadePath, script, jadeContent).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
+    }
+
+    @Nonnull
+    private String evaluateMultiple(@Nonnull final JadeCompilerCfg cfg)
+    {
+        List<String> results = Lists.newArrayList();
+
+        Pattern pattern = Pattern.compile(cfg.getMultiple());
+
+        try (ListAutoCloseable<FluentResource> resources = FluentResource.byPattern("jade", pattern))
+        {
+            for (FluentResource resource : resources)
+            {
+                String compile = compile(resource, JadeCompilerCfg.build().setAssignTo(cfg.getAssignTo()));
+
+                results.add(compile);
+            }
+        }
+
+        return StringUtils.join(results, "\n\n");
     }
 }

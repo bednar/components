@@ -124,7 +124,7 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
                 return cache.get(resourceKey);
             }
 
-            if (resource.exists())
+            if (existResource(resource, cfg))
             {
                 String content = compile(resource, cfg);
 
@@ -182,6 +182,12 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     protected List<String> cacheKeyParameters(@Nonnull final C cfg)
     {
         return Lists.newArrayList();
+    }
+
+    @Nonnull
+    protected Boolean existResource(@Nonnull final FluentResource resource, @Nonnull final C cfg)
+    {
+        return resource.exists();
     }
 
     @Nonnull
