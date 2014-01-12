@@ -29,6 +29,7 @@ public abstract class AbstractComponentTest
                 .webFragments(true)
                 .resourceBase("")
                 .initParameter("org.eclipse.jetty.servlet.Default.welcomeServlets", "true")
+                .welcomeFile("resources/jade/index.jade?asHTML=true")
                 .start();
 
         AppContext.initInjector(embeddedJetty.getServletContext());

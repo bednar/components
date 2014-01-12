@@ -16,10 +16,6 @@
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
 
-    <welcome-file-list>
-        <welcome-file>resources/jade/index.jade?asHTML=true</welcome-file>
-    </welcome-file-list>
-
     <mime-mapping>
         <extension>less</extension>
         <mime-type>text/css</mime-type>

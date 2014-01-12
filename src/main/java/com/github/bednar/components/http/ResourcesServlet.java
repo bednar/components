@@ -84,7 +84,7 @@ public class ResourcesServlet extends HttpServlet
             resp.setContentLength(content.getContentLength());
             resp.setStatus(HttpServletResponse.SC_OK);
 
-            LOG.info("[resource processed...][{}]", requestURI);
+            LOG.info("[resource processed][{}]", requestURI);
         }
         else
         {
