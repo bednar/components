@@ -19,7 +19,7 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler<CoffeeCompile
     @Override
     protected String resourceRegexp()
     {
-        return ".*\\.coffee";
+        return ".*\\.coffee.*";
     }
 
     @Nonnull
@@ -38,7 +38,8 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler<CoffeeCompile
 
     @Nonnull
     @Override
-    protected String compile(@Nonnull final FluentResource resource, @Nonnull final CoffeeCompilerCfg cfg)
+    //TODO jb synchronized
+    protected synchronized String compile(@Nonnull final FluentResource resource, @Nonnull final CoffeeCompilerCfg cfg)
     {
         String coffeePath       = resource.path();
         String coffeeContent    = resource.asString();

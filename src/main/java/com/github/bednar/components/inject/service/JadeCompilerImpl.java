@@ -26,7 +26,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
     @Override
     protected String resourceRegexp()
     {
-        return ".*\\.jade";
+        return ".*\\.jade.*";
     }
 
     @Nonnull

@@ -119,6 +119,14 @@ public class JadeCompilerTest extends AbstractComponentTest
     }
 
     @Test
+    public void acceptWithQueryParameters()
+    {
+        JadeCompiler processor = injector.getInstance(JadeCompiler.class);
+
+        Assert.assertTrue(processor.isAcceptedType("/jade/index.jade?asHTML=true"));
+    }
+
+    @Test
     public void notAcceptedType()
     {
         JadeCompiler processor = injector.getInstance(JadeCompiler.class);

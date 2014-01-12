@@ -28,7 +28,7 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler<LessCssCompi
     @Override
     protected String resourceRegexp()
     {
-        return ".*\\.less";
+        return ".*\\.less.*";
     }
 
     @Nonnull
