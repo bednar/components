@@ -8,6 +8,7 @@
     <servlet>
         <servlet-name>Resources</servlet-name>
         <servlet-class>com.github.bednar.components.http.ResourcesServlet</servlet-class>
+        <load-on-startup>20</load-on-startup>
     </servlet>
 
     <servlet-mapping>
