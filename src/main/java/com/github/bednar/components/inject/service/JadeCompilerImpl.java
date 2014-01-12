@@ -54,6 +54,11 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
     @Override
     protected String compile(@Nonnull final FluentResource resource, @Nonnull final JadeCompilerCfg cfg)
     {
+        if (cfg.hasMultiple())
+        {
+            return evaluateMultiple(cfg);
+        }
+
         String jadePath     = resource.path();
         String jadeContent  = resource.asString();
 
@@ -64,10 +69,6 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
             String script = String.format("jade.render(content, %s);", options);
 
             return evaluateInline(jadePath, script, jadeContent);
-        }
-        else if (cfg.hasMultiple())
-        {
-            return evaluateMultiple(cfg);
         }
         else if (cfg.hasAssignTo())
         {

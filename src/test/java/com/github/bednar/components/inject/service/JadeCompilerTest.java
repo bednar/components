@@ -191,7 +191,7 @@ public class JadeCompilerTest extends AbstractComponentTest
                 .setAssignTo("window.templates")
                 .setMultiple("/multiple/.*\\.jade");
 
-        ResourceResponse response = processor.process("/jade/assignTo.jade", configuration);
+        ResourceResponse response = processor.process("/jade/notexist.jade", configuration);
 
         Assert.assertNotNull(response);
         Assert.assertEquals((Object) 332, response.getContentLength());
