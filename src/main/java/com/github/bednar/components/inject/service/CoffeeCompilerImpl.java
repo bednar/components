@@ -38,7 +38,6 @@ public class CoffeeCompilerImpl extends AbstractJavascriptCompiler<CoffeeCompile
 
     @Nonnull
     @Override
-    //TODO jb synchronized
     protected synchronized String compile(@Nonnull final FluentResource resource, @Nonnull final CoffeeCompilerCfg cfg)
     {
         String coffeePath       = resource.path();

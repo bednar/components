@@ -1,5 +1,12 @@
 package com.github.bednar.components.inject.service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import com.github.bednar.base.utils.resource.FluentResource;
 import com.github.bednar.components.AbstractComponentTest;
 import com.github.bednar.components.inject.service.resource.ResourceResponse;
@@ -71,6 +78,31 @@ public class CoffeeCompilerTest extends AbstractComponentTest
         CoffeeCompiler compiler = injector.getInstance(CoffeeCompiler.class);
 
         compiler.compile("/coffee/error.coffee");
+    }
+
+    @Test
+    public void parallelCompile() throws InterruptedException, ExecutionException
+    {
+        int threadCount = 5;
+
+        final CoffeeCompiler compiler = injector.getInstance(CoffeeCompiler.class);
+
+        Callable<String> callable = new Callable<String>()
+        {
+            public String call() throws Exception
+            {
+                return compiler.compile("/coffee/basic.coffee");
+            }
+        };
+
+        List<Future<String>> futures = Executors
+                .newFixedThreadPool(threadCount)
+                .invokeAll(Collections.nCopies(threadCount, callable));
+
+        for (Future<String> future : futures)
+        {
+            future.get();
+        }
     }
 
     @Test
