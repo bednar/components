@@ -118,7 +118,7 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
     {
         String script = String.format("'' + jade.compile(content, %s);", options);
 
-        return evaluateInline(jadePath, script, jadeContent).replaceAll("\n", "").replaceAll("\\\\\"", "\"");
+        return evaluateInline(jadePath, script, jadeContent).replaceAll("\n", "");
     }
 
     @Nonnull

@@ -30,7 +30,7 @@ public class JadeCompilerTest extends AbstractComponentTest
 
         Assert.assertEquals(
                 "function template(locals) {var buf = [];var jade_mixins = {};" +
-                "buf.push(\"<h1>Jade - node template engine</h1><p class=\"class\">Get on it!<span class=\"hello\">Bye Bye</span></p>\");;" +
+                "buf.push(\"<h1>Jade - node template engine</h1><p class=\\\"class\\\">Get on it!<span class=\\\"hello\\\">Bye Bye</span></p>\");;" +
                 "return buf.join(\"\");}", compiled);
     }
 
@@ -60,7 +60,7 @@ public class JadeCompilerTest extends AbstractComponentTest
 
         Assert.assertEquals(
                 "function template(locals) {var buf = [];var jade_mixins = {};" +
-                "buf.push(\"<h1>Jade - node template engine</h1><p class=\"class\">Get on it!<span class=\"hello\">Bye Bye</span></p>\");;" +
+                "buf.push(\"<h1>Jade - node template engine</h1><p class=\\\"class\\\">Get on it!<span class=\\\"hello\\\">Bye Bye</span></p>\");;" +
                 "return buf.join(\"\");}", compiled);
     }
 
@@ -134,12 +134,12 @@ public class JadeCompilerTest extends AbstractComponentTest
         ResourceResponse response = processor.process("/jade/remote.jade", JadeCompilerCfg.build());
 
         Assert.assertNotNull(response);
-        Assert.assertEquals((Object) 162, response.getContentLength());
+        Assert.assertEquals((Object) 164, response.getContentLength());
         Assert.assertEquals("application/javascript;charset=UTF-8", response.getContentType());
         Assert.assertEquals("UTF-8", response.getCharacterEncoding());
         Assert.assertEquals(
                         "function template(locals) {var buf = [];var jade_mixins = {};" +
-                        "buf.push(\"<h1 class=\"super-toolkit\">Hi Jakub... Super Toolkit!<p>NP</p></h1>\");" +
+                        "buf.push(\"<h1 class=\\\"super-toolkit\\\">Hi Jakub... Super Toolkit!<p>NP</p></h1>\");" +
                         ";return buf.join(\"\");}",
                 new String(response.getContent()));
     }

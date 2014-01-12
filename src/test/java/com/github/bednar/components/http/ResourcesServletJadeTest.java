@@ -41,8 +41,8 @@ public class ResourcesServletJadeTest extends AbstractComponentTest
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("application/javascript;charset=UTF-8", response.getMediaType().toString());
         Assert.assertEquals("function template(locals) {var buf = [];var jade_mixins = {};" +
-                "buf.push(\"<h1>Jade - node template engine</h1><p class=\"class\">Get on it!" +
-                "<span class=\"hello\">Bye Bye</span></p>\");;return buf.join(\"\");}",
+                "buf.push(\"<h1>Jade - node template engine</h1><p class=\\\"class\\\">Get on it!" +
+                "<span class=\\\"hello\\\">Bye Bye</span></p>\");;return buf.join(\"\");}",
                 response.readEntity(String.class));
     }
 }
