@@ -3,11 +3,16 @@ package com.github.bednar.components.inject.service;
 import javax.annotation.Nonnull;
 import javax.cache.Cache;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import com.github.bednar.base.utils.cache.FluentCache;
+import com.github.bednar.base.utils.resource.FileChangeAnnounce;
+import com.github.bednar.base.utils.resource.FileChangeContext;
+import com.github.bednar.base.utils.resource.FluentChange;
 import com.github.bednar.base.utils.resource.FluentResource;
 import com.github.bednar.base.utils.throwable.FluentException;
 import com.github.bednar.components.inject.service.resource.GenericResourceResponse;
@@ -35,6 +40,7 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     private final Pattern pattern;
 
     private final Cache<String, ResourceResponse> cache;
+    private final FluentChange watcher;
 
     public AbstractJavascriptCompiler(@Nonnull String... scriptPaths)
     {
@@ -56,6 +62,7 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
 
         pattern = Pattern.compile(resourceRegexp());
         cache   = FluentCache.cacheByClass(LessCssCompilerImpl.class, String.class, ResourceResponse.class);
+        watcher = FluentChange.byResources(new UpdateCache()).watchAssync();
     }
 
     @Nonnull
@@ -132,6 +139,23 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
 
                 cache.put(resourceKey, response);
 
+                for (Path path : resourcePaths(resource))
+                {
+                    FileChangeContext context = FileChangeContext
+                            .byPath(path)
+                            .addContext("cacheKey", resourceKey);
+
+                    watcher.addFileChangeContext(context);
+                }
+//                if ()
+//                {
+//                    FileChangeContext context = FileChangeContext
+//                            .byResource(resource)
+//                            .addContext("cacheKey", resourceKey);
+//
+//                    watcher.addFileChangeContext(context);
+//                }
+
                 return response;
             }
             else
@@ -191,6 +215,17 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     }
 
     @Nonnull
+    protected Path[] resourcePaths(@Nonnull final FluentResource resource)
+    {
+        if (resource.isReloadable())
+        {
+            return new Path[]{resource.asPath()};
+        }
+
+        return new Path[0];
+    }
+
+    @Nonnull
     private String cacheKey(@Nonnull final FluentResource resource, @Nonnull final C cfg)
     {
         String parameters = StringUtils.join(cacheKeyParameters(cfg), "-");
@@ -222,6 +257,21 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
         catch (IOException e)
         {
             throw FluentException.internal(e);
+        }
+    }
+
+    private class UpdateCache implements FileChangeAnnounce
+    {
+        @Override
+        public void modified(@Nonnull final FileChangeContext context)
+        {
+            Serializable cacheKey = context.getContext().get("cacheKey");
+            if (cacheKey != null)
+            {
+                LOG.info("[updated-resource][{}]", cacheKey);
+
+                cache.remove(cacheKey.toString());
+            }
         }
     }
 }

@@ -15,11 +15,14 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mozilla.javascript.JavaScriptException;
 
+import static com.github.bednar.components.Defaults.WAIT_FOR_CHANGE;
+
 /**
  * @author Jakub Bednář (30/12/2013 17:13)
  */
 public class CoffeeCompilerTest extends AbstractComponentTest
 {
+
     @Test
     public void serviceNotNull()
     {
@@ -162,5 +165,32 @@ public class CoffeeCompilerTest extends AbstractComponentTest
         spy.process("/coffee/cache.coffee", CoffeeCompilerCfg.build());
 
         Mockito.verify(spy, Mockito.times(1)).compile(Mockito.<FluentResource>any(), Mockito.<CoffeeCompilerCfg>any());
+    }
+
+    @Test
+    public void correctContentChangedFiles() throws Exception
+    {
+        CoffeeCompilerImpl processor = (CoffeeCompilerImpl) injector.getInstance(CoffeeCompiler.class);
+
+        CoffeeCompilerCfg cfg = CoffeeCompilerCfg
+                .build()
+                .setBare(true);
+
+        ResourceResponse response = processor.process("/coffee/contentChange.coffee", cfg);
+
+        Assert.assertEquals(
+                "if (typeof elvis !== \"undefined\" && elvis !== null) {\n  alert(\"I knew it!\");\n}\n",
+                new String(response.getContent()));
+
+        try (FluentResource resource = FluentResource.byPath("/coffee/contentChange.coffee"))
+        {
+            resource.update("### \nsome coffee comments\n###");
+        }
+
+        Thread.sleep(WAIT_FOR_CHANGE);
+
+        response = processor.process("/coffee/contentChange.coffee", cfg);
+
+        Assert.assertEquals("/* \nsome coffee comments\n*/\n\n\n", new String(response.getContent()));
     }
 }

@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mozilla.javascript.JavaScriptException;
 
+import static com.github.bednar.components.Defaults.WAIT_FOR_CHANGE;
+
 /**
  * @author Jakub Bednář (29/12/2013 18:17)
  */
@@ -226,6 +228,31 @@ public class JadeCompilerTest extends AbstractComponentTest
         spy.process("/jade/cache.jade", JadeCompilerCfg.build());
 
         Mockito.verify(spy, Mockito.times(1)).compile(Mockito.<FluentResource>any(), Mockito.<JadeCompilerCfg>any());
+    }
+
+    @Test
+    public void correctContentChangedFiles() throws Exception
+    {
+        JadeCompilerImpl processor = (JadeCompilerImpl) injector.getInstance(JadeCompiler.class);
+
+        JadeCompilerCfg cfg = JadeCompilerCfg
+                .build()
+                .setRenderAsHTML();
+
+        ResourceResponse response = processor.process("/jade/contentChange.jade", cfg);
+
+        Assert.assertEquals("<h1>Template will be changed</h1>", new String(response.getContent()));
+
+        try (FluentResource resource = FluentResource.byPath("/jade/contentChange.jade"))
+        {
+            resource.update("// some jade comments");
+        }
+
+        Thread.sleep(WAIT_FOR_CHANGE);
+
+        response = processor.process("/jade/contentChange.jade", cfg);
+
+        Assert.assertEquals("<!-- some jade comments-->", new String(response.getContent()));
     }
 }
 

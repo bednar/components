@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mozilla.javascript.JavaScriptException;
 
+import static com.github.bednar.components.Defaults.WAIT_FOR_CHANGE;
+
 /**
  * @author Jakub Bednář (29/12/2013 11:35)
  */
@@ -118,5 +120,26 @@ public class LessCssCompilerTest extends AbstractComponentTest
         spy.process("/less/cache.less", LessCssCompilerCfg.build());
 
         Mockito.verify(spy, Mockito.times(1)).compile(Mockito.<FluentResource>any(), Mockito.<LessCssCompilerCfg>any());
+    }
+
+    @Test
+    public void correctContentChangedFiles() throws Exception
+    {
+        LessCssCompilerImpl processor = (LessCssCompilerImpl) injector.getInstance(LessCssCompiler.class);
+
+        ResourceResponse response = processor.process("/less/contentChange.less", LessCssCompilerCfg.build());
+
+        Assert.assertEquals("span{color:deeppink}", new String(response.getContent()));
+
+        try (FluentResource resource = FluentResource.byPath("/less/contentChange.less"))
+        {
+            resource.update("span{\n\tcolor:blue\n}");
+        }
+
+        Thread.sleep(WAIT_FOR_CHANGE);
+
+        response = processor.process("/less/contentChange.less", LessCssCompilerCfg.build());
+
+        Assert.assertEquals("span{color:#00f}", new String(response.getContent()));
     }
 }

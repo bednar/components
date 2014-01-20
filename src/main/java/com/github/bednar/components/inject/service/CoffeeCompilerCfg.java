@@ -7,6 +7,8 @@ import javax.annotation.Nonnull;
  */
 public final class CoffeeCompilerCfg
 {
+    private Boolean bare = false;
+
     private CoffeeCompilerCfg()
     {
     }
@@ -15,5 +17,19 @@ public final class CoffeeCompilerCfg
     public static CoffeeCompilerCfg build()
     {
         return new CoffeeCompilerCfg();
+    }
+
+    @Nonnull
+    public Boolean getBare()
+    {
+        return bare;
+    }
+
+    @Nonnull
+    public CoffeeCompilerCfg setBare(@Nonnull final Boolean bare)
+    {
+        this.bare = Boolean.TRUE.equals(bare);
+
+        return this;
     }
 }
