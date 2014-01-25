@@ -211,14 +211,14 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     @Nonnull
     protected Set<Path> resourcePaths(@Nonnull final FluentResource resource)
     {
+        Set<Path> results = Sets.newHashSet();
+
         if (resource.isReloadable())
         {
-            return Sets.newHashSet(resource.asPath());
+            results.add(resource.asPath());
         }
-        else
-        {
-            return Sets.newHashSet();
-        }
+
+        return results;
     }
 
     @Nonnull
