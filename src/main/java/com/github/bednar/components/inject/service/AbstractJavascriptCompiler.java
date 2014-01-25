@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.github.bednar.base.utils.cache.FluentCache;
@@ -20,6 +21,7 @@ import com.github.bednar.components.inject.service.resource.ResourceProcessor;
 import com.github.bednar.components.inject.service.resource.ResourceResponse;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.mozilla.javascript.Context;
@@ -207,14 +209,16 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     }
 
     @Nonnull
-    protected Path[] resourcePaths(@Nonnull final FluentResource resource)
+    protected Set<Path> resourcePaths(@Nonnull final FluentResource resource)
     {
         if (resource.isReloadable())
         {
-            return new Path[]{resource.asPath()};
+            return Sets.newHashSet(resource.asPath());
         }
-
-        return new Path[0];
+        else
+        {
+            return Sets.newHashSet();
+        }
     }
 
     @Nonnull
