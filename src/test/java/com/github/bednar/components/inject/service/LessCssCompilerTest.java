@@ -142,4 +142,25 @@ public class LessCssCompilerTest extends AbstractComponentTest
 
         Assert.assertEquals("span{color:#00f}", new String(response.getContent()));
     }
+
+    @Test
+    public void correctContentChangedFilesWithImport() throws InterruptedException
+    {
+        LessCssCompilerImpl processor = (LessCssCompilerImpl) injector.getInstance(LessCssCompiler.class);
+
+        ResourceResponse response = processor.process("/less/withimportForChange.less", LessCssCompilerCfg.build());
+
+        Assert.assertEquals(".file-for-change{font-weight:bold}.with-import{color:blue}", new String(response.getContent()));
+
+        try (FluentResource resource = FluentResource.byPath("/less/sub/subForChange.less"))
+        {
+            resource.update("span{\n\tcolor:blue\n}");
+        }
+
+        Thread.sleep(WAIT_FOR_CHANGE);
+
+        response = processor.process("/less/withimportForChange.less", LessCssCompilerCfg.build());
+
+        Assert.assertEquals("span{color:#00f}.with-import{color:blue}", new String(response.getContent()));
+    }
 }

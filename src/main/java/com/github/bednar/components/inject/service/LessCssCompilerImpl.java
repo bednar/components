@@ -1,11 +1,14 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import java.nio.file.Path;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.github.bednar.base.utils.resource.FluentResource;
+import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +66,28 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler<LessCssCompi
                 "result;", lessPath, cfg.getCompress());
 
         return evaluateInline(lessPath, script, lessContent);
+    }
+
+    @Nonnull
+    @Override
+    protected Set<Path> resourcePaths(@Nonnull final FluentResource resource)
+    {
+        Set<Path> results = Sets.newHashSet();
+        results.add(resource.asPath());
+
+        Matcher matcher = IMPORT_PATTERN.matcher(resource.asString());
+
+        while (matcher.find())
+        {
+            String importPath = matcher.group(3);
+
+            try (FluentResource importResource = FluentResource.byPath(resource.directory() + importPath))
+            {
+                results.addAll(resourcePaths(importResource));
+            }
+        }
+
+        return results;
     }
 
     @Nonnull
