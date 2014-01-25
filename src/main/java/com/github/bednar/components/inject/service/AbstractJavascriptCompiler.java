@@ -147,14 +147,6 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
 
                     watcher.addFileChangeContext(context);
                 }
-//                if ()
-//                {
-//                    FileChangeContext context = FileChangeContext
-//                            .byResource(resource)
-//                            .addContext("cacheKey", resourceKey);
-//
-//                    watcher.addFileChangeContext(context);
-//                }
 
                 return response;
             }
