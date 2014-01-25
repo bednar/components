@@ -141,7 +141,7 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
 
                 cache.put(resourceKey, response);
 
-                for (Path path : resourcePaths(resource))
+                for (Path path : resourcePaths(resource, cfg))
                 {
                     FileChangeContext context = FileChangeContext
                             .byPath(path)
@@ -209,7 +209,7 @@ public abstract class AbstractJavascriptCompiler<C> implements ResourceProcessor
     }
 
     @Nonnull
-    protected Set<Path> resourcePaths(@Nonnull final FluentResource resource)
+    protected Set<Path> resourcePaths(@Nonnull final FluentResource resource, @Nonnull final C cfg)
     {
         Set<Path> results = Sets.newHashSet();
 

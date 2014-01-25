@@ -70,7 +70,7 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler<LessCssCompi
 
     @Nonnull
     @Override
-    protected Set<Path> resourcePaths(@Nonnull final FluentResource resource)
+    protected Set<Path> resourcePaths(@Nonnull final FluentResource resource, @Nonnull final LessCssCompilerCfg cfg)
     {
         Set<Path> results = Sets.newHashSet();
         results.add(resource.asPath());
@@ -83,7 +83,7 @@ public class LessCssCompilerImpl extends AbstractJavascriptCompiler<LessCssCompi
 
             try (FluentResource importResource = FluentResource.byPath(resource.directory() + importPath))
             {
-                results.addAll(resourcePaths(importResource));
+                results.addAll(resourcePaths(importResource, cfg));
             }
         }
 
