@@ -254,5 +254,40 @@ public class JadeCompilerTest extends AbstractComponentTest
 
         Assert.assertEquals("<!-- some jade comments-->", new String(response.getContent()));
     }
+
+    @Test
+    public void correctContentChangedFilesWithMultiple() throws InterruptedException
+    {
+        JadeCompiler processor = injector.getInstance(JadeCompiler.class);
+
+        JadeCompilerCfg configuration = JadeCompilerCfg
+                .build()
+                .setAssignTo("window.templates")
+                .setMultiple("/multipleForChange/.*\\.jade");
+
+        ResourceResponse response = processor.process("/jade/notexist.jade", configuration);
+
+        Assert.assertEquals(
+                "window.templates.template2 = function template(locals) {var buf = [];" +
+                "var jade_mixins = {};buf.push(\"<p>Template 2 for multiple change testing</p>\");;" +
+                "return buf.join(\"\");};\n\nwindow.templates.template1 = function template(locals) " +
+                "{var buf = [];var jade_mixins = {};buf.push(\"<h1>Template 1 for multiple change testing</h1>\")" +
+                ";;return buf.join(\"\");};", new String(response.getContent()));
+
+        try (FluentResource resource = FluentResource.byPath("/jade/multipleForChange/template2.jade"))
+        {
+            resource.update("h2 template changed");
+        }
+
+        Thread.sleep(WAIT_FOR_CHANGE);
+
+        response = processor.process("/jade/notexist.jade", configuration);
+
+        Assert.assertEquals("window.templates.template2 = function template(locals) {var buf = [];" +
+                "var jade_mixins = {};buf.push(\"<h2>template changed</h2>\");;" +
+                "return buf.join(\"\");};\n\nwindow.templates.template1 = function template(locals) " +
+                "{var buf = [];var jade_mixins = {};buf.push(\"<h1>Template 1 for multiple change testing</h1>\")" +
+                ";;return buf.join(\"\");};", new String(response.getContent()));
+    }
 }
 

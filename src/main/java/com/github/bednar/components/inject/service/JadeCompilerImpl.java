@@ -1,8 +1,10 @@
 package com.github.bednar.components.inject.service;
 
 import javax.annotation.Nonnull;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,6 +12,7 @@ import com.github.bednar.base.utils.collection.ListAutoCloseable;
 import com.github.bednar.base.utils.lang.Patterns;
 import com.github.bednar.base.utils.resource.FluentResource;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -109,6 +112,33 @@ public class JadeCompilerImpl extends AbstractJavascriptCompiler<JadeCompilerCfg
     protected Boolean existResource(@Nonnull final FluentResource resource, @Nonnull final JadeCompilerCfg cfg)
     {
         return cfg.hasMultiple() || resource.exists();
+    }
+
+    @Nonnull
+    @Override
+    protected Set<Path> resourcePaths(@Nonnull final FluentResource resource, @Nonnull final JadeCompilerCfg cfg)
+    {
+        if (cfg.hasMultiple())
+        {
+            Set<Path> results = Sets.newHashSet();
+
+            //noinspection ConstantConditions
+            try (ListAutoCloseable<FluentResource> patternResources = FluentResource.byPattern("jade", cfg.getMultiple()))
+            {
+                for (FluentResource patternResource : patternResources)
+                {
+                    Path patternPath = patternResource.asPath();
+
+                    results.add(patternPath);
+                }
+            }
+
+            return results;
+        }
+        else
+        {
+            return super.resourcePaths(resource, cfg);
+        }
     }
 
     @Nonnull
