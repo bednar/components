@@ -184,9 +184,7 @@
                         <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                         <sourceDirectory>${project.basedir}/src/main/resources/</sourceDirectory>
                     </sourceDirectories>
-                    <coberturaFile>${project.reporting.outputDirectory}/cobertura/coverage.xml</coberturaFile>
-                    <sagaFile>${project.build.directory}/saga-coverage/total-coverage.xml</sagaFile>
-                    <baseDir>http://localhost:${jasmine.serverPort}</baseDir>
+                    <dryRun>true</dryRun>
                 </configuration>
             </plugin>
 
