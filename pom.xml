@@ -184,7 +184,6 @@
                         <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                         <sourceDirectory>${project.basedir}/src/main/resources/</sourceDirectory>
                     </sourceDirectories>
-                    <dryRun>true</dryRun>
                 </configuration>
             </plugin>
 
