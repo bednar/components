@@ -182,8 +182,10 @@
                 <configuration>
                     <sourceDirectories>
                         <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-                        <sourceDirectory>${project.basedir}/src/main/resources/</sourceDirectory>
                     </sourceDirectories>
+                    <sourceUrls>
+                        <sourceUrl>http://localhost:${jasmine.serverPort}</sourceUrl>
+                    </sourceUrls>
                 </configuration>
             </plugin>
 
